@@ -7,10 +7,10 @@ app = Flask(__name__)
 
 def connect_db():
     return pymysql.connect(
-        host= '',
-        user= '',
-        password= '',
-        database= '',
+        host= '10.100.33.60',
+        user= 'mmcfowler',
+        password= '220878185',
+        database= 'mmcfowler_BinBuddy',
         cursorclass=pymysql.cursors.DictCursor,
         autocommit= True
     )
