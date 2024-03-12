@@ -24,3 +24,13 @@ def get_db():
 def close_db(error):
     if hasattr(g, 'db'):
         g.db.close()
+        
+        
+@app.route("/")
+def index():
+    return render_template('index.html.jinja')
+
+@app.route("/rewards")
+def rewards():
+    return render_template('rewards.html.jinja')
+
