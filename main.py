@@ -24,3 +24,7 @@ def get_db():
 def close_db(error):
     if hasattr(g, 'db'):
         g.db.close()
+
+@app.route('/')
+def index():
+    return render_template('homepage.html.jinja')
