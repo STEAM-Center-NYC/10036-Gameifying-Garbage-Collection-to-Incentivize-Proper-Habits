@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, g, url_for
 from pymysql.err import IntegrityError
+from dynaconf import Dynaconf
 import flask_login
 import pymysql
 import pymysql.cursors
 
 app = Flask(__name__)
+settings = Dynaconf(settings_file=["settings.toml"])
 app.secret_key = "eiewvrijvbeqdivjbnVQDKENWjneqwc"
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
@@ -26,9 +28,9 @@ class User:
 def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
-        user="mmcfowler",
-        password="220878185",
-        database="mmcfowler_BinBuddy",
+        user=settings.db_user,
+        password=settings.db_pass,
+        database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
     )
@@ -62,6 +64,8 @@ def load_user(user_id):
 def landing():
     if flask_login.current_user.is_authenticated:
         return redirect("/homepage")
+    else:
+        return render_template('index.html.jinja')
 
 
 @app.route("/homepage")
