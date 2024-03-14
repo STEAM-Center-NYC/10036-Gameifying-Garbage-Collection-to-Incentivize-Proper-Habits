@@ -1,168 +1,189 @@
 body {
-  background-color: #b3e0ff; /* Light blue background - Environmental theme */
-  font-family: 'Montserrat', sans-serif; /* Modern font */
+  background-color: #f5f5f55e; /* Light gray background */
+  font-family: 'Press Start 2P', cursive;
   margin: 0;
   padding: 0;
-  animation: slideIn 1s ease-in-out; /* Slide-in animation */
-  perspective: 500px;
 }
 
 header {
-  background-color: #3d5a80; /* Ocean Blue header background */
+  background-color: #001f3f; /* Dark blue header background */
+  color: #ffffff; /* White text color */
   padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.left-side img {
-  width: 80px;
-  height: 80px;
-  background: transparent;
-}
-
-.right-side {
+.logo-container {
   display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 
-.nav-link-wrapper {
-  margin-right: 20px;
+.logo-container img {
+  width: 60px; /* Adjust logo width */
+  height: 60px; /* Adjust logo height */
 }
 
-.nav-link-wrapper a {
+.logo-container h1 {
+  font-size: 24px; /* Adjust logo text size */
+  margin-left: 10px; /* Add some spacing between logo and text */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  padding-right: 20px;
+}
+
+.navbar li {
+  margin-right: 20px; /* Adjust spacing between navbar items */
+}
+
+.navbar a {
   text-decoration: none;
-  color: #98c1d9; /* Light blue color - Environmental theme */
+  color: #ffffff; /* White text color */
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px; /* Adjust font size */
   transition: color 0.3s ease-in-out;
 }
 
-.nav-link-wrapper a:hover {
-  color: #2a9d8f; /* Dark teal color on hover - Environmental theme */
+.navbar a:hover {
+  color: #62c370; /* Light green color on hover */
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.user-section a {
+  margin-left: 20px; /* Adjust spacing between user section items */
+  color: #ffffff; /* White text color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size */
+  transition: color 0.3s ease-in-out;
+}
+
+.user-section a.nav-btn {
+  background-color: #62c370; /* Light green button background color */
+  color: #001f3f; /* Dark blue button text color */
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.user-section a.nav-btn:hover {
+  background-color: #2d2c62; /* Dark blue button background color on hover */
+  color: #ffffff; /* White button text color on hover */
+}
+
+.main-section {
+  background-color: #ffffff; /* White main section background */
+  padding: 50px 0;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 50px;
 }
 
-.left-side {
-  max-width: 450px;
+.content {
+  max-width: 500px;
 }
 
 h1 {
-  font-size: 40px;
-  color: #2a9d8f; /* Dark teal color - Environmental theme */
-  margin-bottom: 20px;
+  font-size: 36px; /* Adjust main heading font size */
+  color: #2d2c62; /* Dark blue main heading color */
+  font-weight: bold;
 }
 
 .green {
-  color: #2a9d8f; /* Dark teal color - Environmental theme */
+  color: #62c370; /* Light green color */
 }
 
 p {
-  color: #4d4d4d; /* Dark gray text color */
-  font-size: 16px;
+  color: #666666; /* Dark gray paragraph text color */
+  font-size: 18px; /* Adjust paragraph font size */
   line-height: 1.6;
   margin-bottom: 20px;
 }
 
-a {
-  background-color: #3d5a80; /* Ocean Blue color */
-  color: #98c1d9; /* Light blue text color - Environmental theme */
-  padding: 10px 20px;
+.cta-btn {
+  background-color: #62c370; /* Light green button background color */
+  color: #2d2c62; /* Dark blue button text color */
+  padding: 15px 30px;
   text-decoration: none;
   border-radius: 5px;
   font-weight: bold;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  display: inline-block;
 }
 
-a:hover {
-  background-color: #2a9d8f; /* Dark teal background on hover - Environmental theme */
-  color: #fff; /* White text on hover */
+.cta-btn:hover {
+  background-color: #2d2c62; /* Dark blue button background color on hover */
+  color: #ffffff; /* White button text color on hover */
 }
 
-.right-side img.binbuddy {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  animation: bounce 1s infinite ease-in-out; /* Bounce animation */
+.image-container img {
+  width: 100%; /* Make the image responsive */
 }
 
-.box {
+.footer {
+  background-color: #2d2c62; /* Dark blue footer background */
+  color: #ffffffae; /* White footer text color */
+  padding: 20px 0;
+}
+
+.footer-content {
   display: flex;
-  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.box a img {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out;
+.footer-logo img {
+  width: 40px; /* Adjust footer logo width */
+  height: 40px; /* Adjust footer logo height */
+  margin-right: 10px; /* Add some spacing between logo and text */
 }
 
-.box a img:hover {
-  transform: scale(1.2);
+.footer-logo h2 {
+  font-size: 20px; /* Adjust footer logo text size */
 }
 
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-20px);
-  }
-  60% {
-    transform: translateY(-10px);
-  }
+.footer-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.footer-links li {
+  margin-right: 20px; /* Adjust spacing between footer links */
 }
 
-/* New CSS for Reward Tracker and Map sections */
-
-.map-placeholder {
-  background-color: #3d5a80; /* Ocean Blue background for the map placeholder */
-  padding: 50px 0;
+.footer-links a {
+  text-decoration: none;
+  color: #ffffff; /* White footer text color */
+  font-size: 16px; /* Adjust footer text size */
+  transition: color 0.3s ease-in-out;
 }
 
-.reward-tracker {
-  background-color: #3d5a80; /* Ocean Blue background for the reward tracker */
-  padding: 50px 0;
-  color: #fff;
+.footer-links a:hover {
+  color: #62c370; /* Light green color on hover */
 }
 
-.reward-tracker h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 30px;
-}
-
-.reward-tracker p {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.reward-tracker h1 {
-  font-size: 3rem;
-  font-weight: 900;
-}
-
-.reward-tracker img {
-  width: 100px;
-  height: 100px;
-  margin-right: 20px;
+.footer-text p {
+  margin: 0;
+  font-size: 14px; /* Adjust footer text size */
 }
