@@ -94,3 +94,7 @@ def signin():
             error = "Invalid username or password"
             return render_template("signin.html.jinja", error=error)
     return render_template("signin.html.jinja")
+
+@app.route("/rewards")
+def rewards():
+    return render_template("rewards.html.jinja")
