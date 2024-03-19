@@ -62,10 +62,16 @@ def load_user(user_id):
 
 @app.route("/")
 def landing():
+    admin_access = False
     if flask_login.current_user.is_authenticated:
-        return redirect("/homepage")
-    else:
-        return render_template('index.html.jinja')
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
+        admin_user = cursor.fetchone()
+        cursor.close()
+        if admin_user:
+            admin_access = True
+    return render_template('index.html.jinja', admin_access=admin_access)
+
 
 
 @app.route("/homepage")
@@ -76,7 +82,7 @@ def homepage():
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if flask_login.current_user.is_authenticated:
-        return redirect("/homepage")
+        return redirect("/")
     if request.method == "POST":
         identifier = request.form["identifier"]
         password = request.form["password"]
