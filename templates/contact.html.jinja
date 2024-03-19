@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://kit.fontawesome.com/d106e5acd2.js" crossorigin="anonymous"></script>
-  <title>BinBuddy Rewards</title>
+  <title>Contact Us - BinBuddy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Viga&display=swap" rel="stylesheet">
@@ -51,7 +51,7 @@
     }
 
     .navbar a:hover {
-      color: #ffd700; /* Change to desired hover color */
+      color: #ffd700;
     }
 
     .main-section {
@@ -64,42 +64,47 @@
       margin: 0 auto;
     }
 
-    .points-balance {
-      font-size: 24px;
-      margin-bottom: 30px;
-    }
-
-    .reward-item {
+    .contact-form {
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      padding: 30px;
+    }
+
+    .form-group {
       margin-bottom: 20px;
-      text-align: left;
     }
 
-    .reward-item h2 {
-      margin-top: 0;
-    }
-
-    .points {
-      color: #2d2c62;
+    .form-group label {
+      display: block;
       font-weight: bold;
+      margin-bottom: 5px;
     }
 
-    .progress {
-      height: 20px;
-      margin-top: 10px;
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
-    footer {
+    .form-group textarea {
+      height: 150px;
+    }
+
+    .submit-btn {
       background-color: #2d2c62;
       color: #fff;
-      padding: 20px 0;
-      text-align: center;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #1e1d4e;
     }
   </style>
 </head>
@@ -121,39 +126,28 @@
 
   <section class="main-section">
     <div class="container">
-      <h1>Rewards Tracking</h1>
-      <div class="points-balance">Current Points: <span id="points">1000</span></div>
-      <div class="reward-item">
-        <h2>Reward 1</h2>
-        <p>Description of Reward 1.</p>
-        <p class="points">Points Required: 500</p>
-        <div class="progress">
-          <div class="progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40"
-            aria-valuemin="0" aria-valuemax="100">40%</div>
-        </div>
-      </div>
-      <div class="reward-item">
-        <h2>Reward 2</h2>
-        <p>Description of Reward 2.</p>
-        <p class="points">Points Required: 1000</p>
-        <div class="progress">
-          <div class="progress-bar bg-warning" role="progressbar" style="width: 60%;" aria-valuenow="60"
-            aria-valuemin="0" aria-valuemax="100">60%</div>
-        </div>
-      </div>
-      <div class="reward-item">
-        <h2>Reward 3</h2>
-        <p>Description of Reward 3.</p>
-        <p class="points">Points Required: 1500</p>
-        <div class="progress">
-          <div class="progress-bar bg-danger" role="progressbar" style="width: 20%;" aria-valuenow="20"
-            aria-valuemin="0" aria-valuemax="100">20%</div>
-        </div>
+      <h1>Contact Us</h1>
+      <div class="contact-form">
+        <form action="#" method="post">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
       </div>
     </div>
   </section>
 
-  
+ 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"

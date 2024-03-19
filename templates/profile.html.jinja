@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BinBuddy - Profile</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head> 
+<style> 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+  }
+  
+  header {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #2d2c62;
+    color: #fff;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .profile,
+  .points,
+  .rewards,
+  .settings,
+  .activity-log,
+  .support,
+  .logout {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-info p {
+    margin: 5px 0;
+  }
+  
+  .progress {
+    background-color: #e0e0e0;
+    height: 20px;
+    border-radius: 5px;
+  }
+  
+  .progress-bar {
+    background-color: #2d2c62;
+    height: 100%;
+    border-radius: 5px;
+  }
+  
+  .rewards ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .rewards li {
+    margin-bottom: 5px;
+  }
+  
+  .settings form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .settings label,
+  .settings button {
+    margin-bottom: 10px;
+  }
+  
+  .support ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .support li {
+    margin-bottom: 5px;
+  }
+  
+  .logout {
+    text-align: center;
+  }
+  
+  .logout a {
+    color: #fff;
+    background-color: #2d2c62;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .logout a:hover {
+    background-color: #4a496d;
+  }
+  .navbar {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .navbar li:last-child {
+    margin-right: 0;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none; 
+  }  
+</style>
+<body> 
+<nav>
+      <ul class="navbar">
+        <li><a href="/homepage">Home</a></li>
+        <li><a href="/rewards">Rewards</a></li>
+        <li><a href="profile">Profile</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  <header>
+    <h1>Welcome, [User Name]</h1>
+  </header>
+  <div class="container">
+    <div class="profile">
+      <div class="profile-picture">
+        <img src="profile-pic.jpg" alt="Profile Picture">
+      </div>
+      <div class="profile-info">
+        <h2>Profile Information</h2>
+        <p><strong>Name:</strong> [User Name]</p>
+        <p><strong>Email:</strong> user@example.com</p>
+      </div>
+    </div>
+    <div class="points">
+      <h2>Points</h2>
+      <p><strong>Current Balance:</strong> 1000 points</p>
+      <div class="progress">
+        <div class="progress-bar" style="width: 50%;"></div>
+      </div>
+    </div>
+    <div class="rewards">
+      <h2>Rewards</h2>
+      <ul>
+        <li>10% Off Coupon</li>
+        <li>Free Coffee Voucher</li>
+        <!-- Add more rewards here -->
+      </ul>
+    </div>
+    <div class="settings">
+      <h2>Settings</h2>
+      <form>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="user@example.com">
+        <!-- Add more settings fields here -->
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+    <div class="activity-log">
+      <h2>Activity Log</h2>
+      <ul>
+        <li>Earned 50 points for recycling</li>
+        <li>Redeemed 100 points for a free gift</li>
+        <!-- Add more activity log entries here -->
+      </ul>
+    </div>
+    <div class="support">
+      <h2>Support/Help</h2>
+      <ul>
+        <li><a href="faq.html">FAQs</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="logout">
+      <a href="logout.html">Logout</a>
+    </div>
+  </div>
+</body>
+</html>

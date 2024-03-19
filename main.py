@@ -98,3 +98,22 @@ def signin():
 @app.route("/rewards")
 def rewards():
     return render_template("rewards.html.jinja")
+
+
+@app.route('/rewards') 
+def rewards(): 
+    return render_template('rewards.html.jinja')  
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message'] 
+        print(f'Name: {name}, Email: {email}, Message: {message}')
+        return render_template('thank_you.html', name=name)
+    return render_template('contact.html.jinja')
+
+@app.route('/profile')
+def profile():  
+    return render_template('profile.html.jinja')
