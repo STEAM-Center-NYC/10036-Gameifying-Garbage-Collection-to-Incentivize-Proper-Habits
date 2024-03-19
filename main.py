@@ -1,51 +1,30 @@
-from flask import Flask, render_template, request, redirect, g, url_for
-from pymysql.err import IntegrityError
-from dynaconf import Dynaconf
-import flask_login
-import pymysql
-import pymysql.cursors
+from flask import Flask, render_template, request, redirect, g 
+import flask_login 
+import pymysql 
+import pymysql.cursors 
 
-app = Flask(__name__)
-settings = Dynaconf(settings_file=["settings.toml"])
-app.secret_key = "eiewvrijvbeqdivjbnVQDKENWjneqwc"
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
-
-
-class User:
-    is_authenticated = True
-    is_anonymous = False
-    is_active = True
-
-    def __init__(self, id, username):
-        self.username = username
-        self.id = id
-
-    def get_id(self):
-        return str(self.id)
-
+app = Flask(__name__) 
 
 def connect_db():
     return pymysql.connect(
-        host="10.100.33.60",
-        user=settings.db_user,
-        password=settings.db_pass,
-        database=settings.db_name,
+        host= '',
+        user= '',
+        password= '',
+        database= '',
         cursorclass=pymysql.cursors.DictCursor,
-        autocommit=True,
+        autocommit= True
     )
 
-
 def get_db():
-    if not hasattr(g, "db"):
+    if not hasattr(g, 'db'):
         g.db = connect_db()
     return g.db
 
-
 @app.teardown_appcontext
 def close_db(error):
-    if hasattr(g, "db"):
+    if hasattr(g, 'db'):
         g.db.close()
+
 
 
 @login_manager.user_loader
