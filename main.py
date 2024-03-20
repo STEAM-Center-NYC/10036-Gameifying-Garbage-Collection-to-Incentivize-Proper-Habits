@@ -104,3 +104,7 @@ def signin():
 @app.route("/rewards")
 def rewards():
     return render_template("rewards.html.jinja")
+
+@app.route("/profile")
+def profile():
+    return render_template("profile.html.jinja")
