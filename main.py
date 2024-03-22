@@ -108,3 +108,7 @@ def rewards():
 @app.route("/profile")
 def profile():
     return render_template("profile.html.jinja")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html.jinja")
