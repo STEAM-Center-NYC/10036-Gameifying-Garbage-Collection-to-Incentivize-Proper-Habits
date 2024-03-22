@@ -99,11 +99,6 @@ def signin():
 def rewards():
     return render_template("rewards.html.jinja")
 
-
-@app.route('/rewards') 
-def rewards(): 
-    return render_template('rewards.html.jinja')  
-
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
@@ -117,3 +112,18 @@ def contact():
 @app.route('/profile')
 def profile():  
     return render_template('profile.html.jinja')
+
+def signup():
+    if flask_login.current_user.is_authenticated:
+        return redirect("/homepage")
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        password = request.form["password"]
+        cursor = get_db().cursor()
+        sql = "INSERT INTO Users (Username, Email, Password) VALUES (?, ?, ?)"
+        cursor.execute(sql, (username, email, password))
+        get_db().commit()
+        cursor.close()
+        return redirect(url_for("signin"))
+    return render_template("signup.html.jinja")
