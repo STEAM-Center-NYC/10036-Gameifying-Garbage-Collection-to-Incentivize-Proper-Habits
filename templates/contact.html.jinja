@@ -11,17 +11,106 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<link rel="stylesheet" href="/static/contact/css/style.css">
-
 </head>
+<style>
+header {
+  background-color: #001f3f; /* Dark blue header background */
+  color: #ffffff; /* White text color */
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.logo-container img {
+  width: 175px; /* Adjust logo width */
+  height: 45px; /* Adjust logo height */
+}
+
+.logo-container h1 {
+  font-size: 24px; /* Adjust logo text size */
+  margin-left: 10px; /* Add some spacing between logo and text */
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  padding-right: 20px;
+}
+
+.navbar li {
+  margin-right: 20px; /* Adjust spacing between navbar items */
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #ffffff; /* White text color */
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size */
+  transition: color 0.3s ease-in-out;
+}
+
+.navbar a:hover {
+  color: #62c370; /* Light green color on hover */
+}
+
+.user-section a {
+  margin-left: 20px; /* Adjust spacing between user section items */
+  color: #ffffff; /* White text color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size */
+  transition: color 0.3s ease-in-out;
+}
+
+.user-section a.nav-btn {
+  background-color: #62c370; /* Light green button background color */
+  color: #001f3f; /* Dark blue button text color */
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.user-section a.nav-btn:hover {
+  background-color: #2d2c62; /* Dark blue button background color on hover */
+  color: #ffffff; /* White button text color on hover */
+}
+</style>
 
 <body>
+<header>
+    <div class="logo-container">
+      <img src="static/images/binbuddytransparent.png" alt="BinBuddy Logo">
+    </div>
+    <nav>
+      <ul class="navbar">
+        <li><a href="#">Home</a></li>
+        <li><a href="/rewards">Rewards</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        {# {% if admin_access %}
+            <li><a href="/admin">Admin Panel</a></li>
+        {% endif %} #}
+      </ul>
+      <div class="user-section">
+      </div>
+    </nav>
+  </header>
 	<section class="ftco-section">
 		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Contact Form #06</h2>
-				</div>
-			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-12">
 					<div class="wrapper">
@@ -126,6 +215,7 @@
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="/static/contact/js/google-map.js"></script>
 	<script src="/static/contact/js/main.js"></script>
+	<script src="/static/rewards.js"></script>
 
 </body>
 

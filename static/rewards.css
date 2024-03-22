@@ -1,82 +1,729 @@
-*, *:after, *:before {
-    box-sizing: border-box;
-    font-family: roboto
+/* Mixins */
+/*
+ * TinyColumn. The wrapper element should have an :after element with :after { content:""; display:table; clear:both; }
+ */
+ .tinycon:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tinycol {
+  float: left;
+  display: block;
+}
+.tinycol.ten {
+  width: 10%;
+}
+@media (max-width: 768px) {
+  .tinycol.ten {
+    width: 100%;
   }
-  body {
-    background: #eee;
+}
+.tinycol.twenty {
+  width: 20%;
+}
+@media (max-width: 768px) {
+  .tinycol.twenty {
+    width: 100%;
   }
-  .multigraph {
+}
+.tinycol.thirty {
+  width: 30%;
+}
+@media (max-width: 768px) {
+  .tinycol.thirty {
+    width: 100%;
+  }
+}
+.tinycol.forty {
+  width: 40%;
+}
+@media (max-width: 768px) {
+  .tinycol.forty {
+    width: 100%;
+  }
+}
+.tinycol.fifty {
+  width: 50%;
+}
+@media (max-width: 768px) {
+  .tinycol.fifty {
+    width: 100%;
+  }
+}
+.tinycol.sixty {
+  width: 60%;
+}
+@media (max-width: 768px) {
+  .tinycol.sixty {
+    width: 100%;
+  }
+}
+.tinycol.seventy {
+  width: 70%;
+}
+@media (max-width: 768px) {
+  .tinycol.seventy {
+    width: 100%;
+  }
+}
+.tinycol.eighty {
+  width: 80%;
+}
+@media (max-width: 768px) {
+  .tinycol.eighty {
+    width: 100%;
+  }
+}
+.tinycol.ninety {
+  width: 90%;
+}
+@media (max-width: 768px) {
+  .tinycol.ninety {
+    width: 100%;
+  }
+}
+.tinycol.hundred {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .tinycol.hundred {
+    width: 100%;
+  }
+}
+
+/* Shitty Skeleton Grid*/
+.container {
+  position: relative;
+  width: 960px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.container .column,
+.container .columns {
+  float: left;
+  display: inline;
+}
+
+/* margin-left: 10px; margin-right: 10px; */
+.row {
+  margin-bottom: 20px;
+}
+
+/* Nested Column Classes */
+.column.alpha, .columns.alpha {
+  margin-left: 0;
+  float: left;
+}
+
+.column.omega, .columns.omega {
+  margin-right: 0;
+  float: right;
+}
+
+/* Base Grid */
+.container .one.column,
+.container .one.columns {
+  width: 40px;
+}
+
+.container .two.columns {
+  width: 100px;
+}
+
+.container .three.columns {
+  width: 160px;
+}
+
+.container .four.columns {
+  width: 220px;
+}
+
+.container .five.columns {
+  width: 280px;
+}
+
+.container .six.columns {
+  width: 340px;
+}
+
+.container .seven.columns {
+  width: 400px;
+}
+
+.container .eight.columns {
+  width: 460px;
+}
+
+.container .nine.columns {
+  width: 520px;
+}
+
+.container .ten.columns {
+  width: 580px;
+}
+
+.container .eleven.columns {
+  width: 640px;
+}
+
+.container .twelve.columns {
+  width: 700px;
+}
+
+.container .thirteen.columns {
+  width: 760px;
+}
+
+.container .fourteen.columns {
+  width: 820px;
+}
+
+.container .fifteen.columns {
+  width: 880px;
+}
+
+.container .sixteen.columns {
+  width: 940px;
+}
+
+.container .one-third.column {
+  width: 300px;
+}
+
+.container .two-thirds.column {
+  width: 620px;
+}
+
+/* Offsets */
+.container .offset-by-one {
+  padding-left: 60px;
+}
+
+.container .offset-by-two {
+  padding-left: 120px;
+}
+
+.container .offset-by-three {
+  padding-left: 180px;
+}
+
+.container .offset-by-four {
+  padding-left: 240px;
+}
+
+.container .offset-by-five {
+  padding-left: 300px;
+}
+
+.container .offset-by-six {
+  padding-left: 360px;
+}
+
+.container .offset-by-seven {
+  padding-left: 420px;
+}
+
+.container .offset-by-eight {
+  padding-left: 480px;
+}
+
+.container .offset-by-nine {
+  padding-left: 540px;
+}
+
+.container .offset-by-ten {
+  padding-left: 600px;
+}
+
+.container .offset-by-eleven {
+  padding-left: 660px;
+}
+
+.container .offset-by-twelve {
+  padding-left: 720px;
+}
+
+.container .offset-by-thirteen {
+  padding-left: 780px;
+}
+
+.container .offset-by-fourteen {
+  padding-left: 840px;
+}
+
+.container .offset-by-fifteen {
+  padding-left: 900px;
+}
+
+/* #Tablet (Portrait)
+================================================== */
+/* Note: Design for a width of 768px */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .container {
+    width: 768px;
+  }
+
+  /*
+  .container .column,
+  .container .columns                         { margin-left: 10px; margin-right: 10px; }
+  */
+  .column.alpha, .columns.alpha {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+
+  .column.omega, .columns.omega {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+
+  .alpha.omega {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .container .one.column,
+.container .one.columns {
+    width: 28px;
+  }
+
+  .container .two.columns {
+    width: 76px;
+  }
+
+  .container .three.columns {
+    width: 124px;
+  }
+
+  .container .four.columns {
+    width: 172px;
+  }
+
+  .container .five.columns {
+    width: 220px;
+  }
+
+  .container .six.columns {
+    width: 268px;
+  }
+
+  .container .seven.columns {
+    width: 316px;
+  }
+
+  .container .eight.columns {
+    width: 364px;
+  }
+
+  .container .nine.columns {
+    width: 412px;
+  }
+
+  .container .ten.columns {
+    width: 460px;
+  }
+
+  .container .eleven.columns {
+    width: 508px;
+  }
+
+  .container .twelve.columns {
+    width: 556px;
+  }
+
+  .container .thirteen.columns {
+    width: 604px;
+  }
+
+  .container .fourteen.columns {
+    width: 652px;
+  }
+
+  .container .fifteen.columns {
+    width: 700px;
+  }
+
+  .container .sixteen.columns {
+    width: 748px;
+  }
+
+  .container .one-third.column {
+    width: 236px;
+  }
+
+  .container .two-thirds.column {
+    width: 492px;
+  }
+
+  /* Offsets */
+  .container .offset-by-one {
+    padding-left: 48px;
+  }
+
+  .container .offset-by-two {
+    padding-left: 96px;
+  }
+
+  .container .offset-by-three {
+    padding-left: 144px;
+  }
+
+  .container .offset-by-four {
+    padding-left: 192px;
+  }
+
+  .container .offset-by-five {
+    padding-left: 240px;
+  }
+
+  .container .offset-by-six {
+    padding-left: 288px;
+  }
+
+  .container .offset-by-seven {
+    padding-left: 336px;
+  }
+
+  .container .offset-by-eight {
+    padding-left: 384px;
+  }
+
+  .container .offset-by-nine {
+    padding-left: 432px;
+  }
+
+  .container .offset-by-ten {
+    padding-left: 480px;
+  }
+
+  .container .offset-by-eleven {
+    padding-left: 528px;
+  }
+
+  .container .offset-by-twelve {
+    padding-left: 576px;
+  }
+
+  .container .offset-by-thirteen {
+    padding-left: 624px;
+  }
+
+  .container .offset-by-fourteen {
+    padding-left: 672px;
+  }
+
+  .container .offset-by-fifteen {
+    padding-left: 720px;
+  }
+}
+/*  #Mobile (Portrait)
+================================================== */
+/* Note: Design for a width of 320px */
+@media only screen and (max-width: 767px) {
+  .container {
     width: 300px;
-    height: 120px;
-    position: absolute;
-    top: 50%;
-    left: 50% ;
-    margin: -150px;
-  
   }
-  .multigraph:before {
-    content: '';
+
+  .container .columns,
+.container .column {
+    margin: inherit 0;
+  }
+
+  .container .one.column,
+.container .one.columns,
+.container .two.columns,
+.container .three.columns,
+.container .four.columns,
+.container .five.columns,
+.container .six.columns,
+.container .seven.columns,
+.container .eight.columns,
+.container .nine.columns,
+.container .ten.columns,
+.container .eleven.columns,
+.container .twelve.columns,
+.container .thirteen.columns,
+.container .fourteen.columns,
+.container .fifteen.columns,
+.container .sixteen.columns,
+.container .one-third.column,
+.container .two-thirds.column {
     width: 300px;
-    height: 150px;
-    position: absolute;
-    border: 30px solid rgba(0,0,0,0.1);
-    border-radius: 300px 300px 0 0;
-    border-bottom: none;
   }
-  .tooltip {
-    width: 80px;
-    height: 30px;
-    background: lightgrey;
-    text-align: center;
-    font-size: 20px;
-    line-height: 30px;
-    font-weight: 200;
-    color: #000;
-    border: 1px solid grey;
-    position: absolute;
-    left: 50%;
-    bottom: -40px;
-    margin: -40px;
-    transition: all 300ms ease-in-out;
-    box-shadow: 0 0 5px grey;
-    opacity: 0;
-    transform: scale(.1);
+
+  /* Offsets */
+  .container .offset-by-one,
+.container .offset-by-two,
+.container .offset-by-three,
+.container .offset-by-four,
+.container .offset-by-five,
+.container .offset-by-six,
+.container .offset-by-seven,
+.container .offset-by-eight,
+.container .offset-by-nine,
+.container .offset-by-ten,
+.container .offset-by-eleven,
+.container .offset-by-twelve,
+.container .offset-by-thirteen,
+.container .offset-by-fourteen,
+.container .offset-by-fifteen {
+    padding-left: 0;
   }
-  
-  
-  
-  
-  
-  
-   .multigraph:hover .tooltip {
-    bottom: 75%;
-    opacity: .8;
-    transform: scale(1);
+}
+/* #Mobile (Landscape)
+================================================== */
+/* Note: Design for a width of 480px */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  .container {
+    width: 420px;
   }
-  .graph {
-    width: 300px;
-    height: 150px;
-    position: absolute;
-    overflow:hidden;
-  
+
+  .container .columns,
+.container .column {
+    margin: inherit 0 !important;
   }
-  .graph:before, .graph:after {
-    width: 300px;
-    height: 150px;
-    position: absolute;
-    top: 100%;
-    border: 30px solid #000;
-    content: '';
-    border-radius:0 0 300px 300px;
-    border-top: none;
-    animation: demo 3s;
-    transform-origin: center top;
+
+  .container .one.column,
+.container .one.columns,
+.container .two.columns,
+.container .three.columns,
+.container .four.columns,
+.container .five.columns,
+.container .six.columns,
+.container .seven.columns,
+.container .eight.columns,
+.container .nine.columns,
+.container .ten.columns,
+.container .eleven.columns,
+.container .twelve.columns,
+.container .thirteen.columns,
+.container .fourteen.columns,
+.container .fifteen.columns,
+.container .sixteen.columns,
+.container .one-third.column,
+.container .two-thirds.column {
+    width: 420px;
   }
-  .graph:after {
-    transform: rotate(150deg);
+}
+/* #Clearing
+================================================== */
+/* Self Clearing Goodness */
+.container:after {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* Use clearfix class on parent to clear nested columns,
+or wrap each row of columns in a <div class="row"> */
+.clearfix:before,
+.clearfix:after,
+.row:before,
+.row:after {
+  content: " ";
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.row:after,
+.clearfix:after {
+  clear: both;
+}
+
+.row,
+.clearfix {
+  zoom: 1;
+}
+
+/* You can also use a <br class="clear" /> to clear columns */
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* Graphs */
+/* Graphs */
+/*
+ * GIANT CREDIT SCOREBOARD
+ */
+.score-announcement {
+  background-color: #0e5c87;
+  margin-bottom: 15px;
+  color: white;
+  border-radius: 10px;
+}
+
+.scoreTick {
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  background-color: #404040;
+  left: 3%;
+  transition: left 300ms linear;
+}
+
+.scoreArrow {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #0e5c87;
+  position: absolute;
+  top: -18px;
+  left: 3%;
+  margin-left: -18px;
+  transition: left 300ms linear;
+}
+
+.scaleTicks {
+  display: table;
+  height: 15px;
+  width: 100%;
+  padding: 0;
+}
+.scaleTicks li {
+  display: table-cell;
+  height: 15px;
+  width: 24.5%;
+  line-height: 15px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.scaleColors {
+  display: table;
+  position: relative;
+  height: 80px;
+  width: 100%;
+  padding: 0;
+}
+.scaleColors li {
+  display: table-cell;
+  height: 80px;
+  width: 25%;
+  line-height: 80px;
+  text-align: center;
+  border-right: 1px solid #fff;
+  white-space: nowrap;
+}
+.scaleColors li:nth-child(1) {
+  background-color: #EF2726;
+  background-image: linear-gradient(to right, #EF2726, #F1A722);
+}
+.scaleColors li:nth-child(2) {
+  background-color: #F1A722;
+  background-image: linear-gradient(to right, #F1A722, #F2E21B);
+}
+.scaleColors li:nth-child(3) {
+  background-color: #F2E21B;
+  background-image: linear-gradient(to right, #F2E21B, #8AC141);
+}
+.scaleColors li:nth-child(4) {
+  background-color: #8AC141;
+  border-right: 0;
+}
+
+/*
+ * Donut Chart
+ */
+@media (max-width: 768px) {
+  canvas.centeredM {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  @keyframes demo {
-    0% { transform: rotate(0deg) }
-    50% { transform: rotate(180deg) }
+}
+
+.donutPercent {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  font-size: 24px;
+}
+
+/* Main Styles */
+body {
+  background-color: #f5f5f5;
+}
+
+.report-wrapper {
+  border-radius: 10px;
+  border: 1px solid #999;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.report-header-wrapper {
+  border-bottom: 1px solid #999;
+  padding-bottom: 10px;
+}
+.report-header-wrapper span.info {
+  float: right;
+  line-height: 26px;
+  cursor: pointer;
+}
+
+.report-body-wrapper {
+  position: relative;
+}
+.report-body-wrapper:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.report-body-wrapper .report-column {
+  border-right: 1px solid #999;
+  margin-top: 10px;
+  padding: 10px;
+  vertical-align: top;
+}
+@media (max-width: 768px) {
+  .report-body-wrapper .report-column {
+    padding: 0;
+    border-right: none;
+    border-bottom: 1px solid #999;
   }
+}
+.report-body-wrapper .report-column:last-child {
+  border: none;
+}
+.report-body-wrapper .report-column .nested-report-column {
+  border: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 10px;
+}
+.report-body-wrapper .report-column .nested-report-column:first-child {
+  margin-left: 0;
+}
+@media (max-width: 768px) {
+  .report-body-wrapper .report-column .nested-report-column {
+    border: none;
+    margin-left: 0;
+  }
+}
+
+.report-chart-wrapper {
+  float: left;
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+@media (max-width: 768px) {
+  .report-chart-wrapper {
+    width: 100%;
+  }
+}
