@@ -78,6 +78,27 @@ def landing():
 def homepage():
     return render_template("homepage.html.jinja")
 
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if flask_login.current_user.is_authenticated:
+        return redirect("/homepage")
+    if request.method == "POST":
+        try:
+            username = request.form["username"]
+            email = request.form["email"]
+            password = request.form["password"]
+            cursor = get_db().cursor()
+            sql = "INSERT INTO Users (Username, Email, Password) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (username, email, password))
+            get_db().commit()
+            return redirect(url_for("signin"))
+        except IntegrityError:
+            error = "Username or email already exists"
+            return render_template("signup.html.jinja", error=error)
+        finally:
+            cursor.close()  
+    return render_template("signup.html.jinja")
+
 
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
