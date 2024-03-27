@@ -74,14 +74,12 @@ def landing():
 
 
 
-@app.route("/homepage")
+@app.route("/home")
 def homepage():
     return render_template("homepage.html.jinja")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if flask_login.current_user.is_authenticated:
-        return redirect("/homepage")
     if request.method == "POST":
         try:
             username = request.form["username"]
@@ -103,7 +101,7 @@ def signup():
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if flask_login.current_user.is_authenticated:
-        return redirect("/")
+        return redirect("/home")
     if request.method == "POST":
         identifier = request.form["identifier"]
         password = request.form["password"]
@@ -122,13 +120,18 @@ def signin():
             return render_template("signin.html.jinja", error=error)
     return render_template("signin.html.jinja")
 
+@app.route("/logout")
+def logout():
+    flask_login.logout_user()
+    return redirect(url_for("/"))
+
 @app.route("/rewards")
 def rewards():
     return render_template("rewards.html.jinja")
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html.jinja")
+    return render_template("profile.html.jinja",)
 
 @app.route("/contact")
 def contact():
