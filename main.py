@@ -72,11 +72,17 @@ def landing():
             admin_access = True
     return render_template('index.html.jinja', admin_access=admin_access)
 
-
-
 @app.route("/home")
-def homepage():
-    return render_template("homepage.html.jinja")
+def home():
+    admin_access = False
+    if flask_login.current_user.is_authenticated:
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
+        admin_user = cursor.fetchone()
+        cursor.close()
+        if admin_user:
+            admin_access = True
+    return render_template('homepage.html.jinja', admin_access=admin_access)
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -123,7 +129,7 @@ def signin():
 @app.route("/logout")
 def logout():
     flask_login.logout_user()
-    return redirect(url_for("/"))
+    return redirect('/')
 
 @app.route("/rewards")
 def rewards():
