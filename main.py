@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, g, url_for
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
+import os
 import flask_login
 import pymysql
 import pymysql.cursors
@@ -72,7 +73,7 @@ def landing():
             admin_access = True
     return render_template('index.html.jinja', admin_access=admin_access)
 
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 def home():
     admin_access = False
     if flask_login.current_user.is_authenticated:
@@ -83,6 +84,7 @@ def home():
         if admin_user:
             admin_access = True
     return render_template('homepage.html.jinja', admin_access=admin_access)
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
