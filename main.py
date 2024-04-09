@@ -136,3 +136,7 @@ def profile():
 @app.route("/contact")
 def contact():
     return render_template("contact.html.jinja")
+
+@app.route("/Admin/Dashboard")
+def Admin():
+    return render_template("AdminDashboard.html.jinja")
