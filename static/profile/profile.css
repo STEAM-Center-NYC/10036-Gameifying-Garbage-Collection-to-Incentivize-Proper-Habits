@@ -1,15 +1,3 @@
-.image-upload-container {
-  position: relative; /* Important for positioning the upload icon */
-}
-
-.profile-image-link {
-  /* Style your image link as needed */
-}
-
-input[type="file"] {
-  display: none;  /* Keep the file input hidden */
-}
-
 
 :root {
     --blue: #5e72e4;
