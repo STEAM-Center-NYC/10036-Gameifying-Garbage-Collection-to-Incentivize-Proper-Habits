@@ -88,6 +88,10 @@ def map_page():
 @app.route("/home", methods=["GET", "POST"])
 def home():
     admin_access = False
+    # cursor = get_db().cursor()
+    # cursor.execute("SELECT Points FROM User")
+    # points = cursor.fetchone()
+    # cursor.close()
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
         cursor.execute(
@@ -167,6 +171,11 @@ def contact():
     return render_template("contact.html.jinja")
 
 
-@app.route("/Admin/Dashboard")
+@app.route("/Admin/Dashboard", methods=["GET"])
 def Admin():
-    return render_template("AdminDashboard.html.jinja")
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
+    id_count_row = cursor.fetchone()  
+    cursor.close()
+    id_count_value = id_count_row["id_count"]
+    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value)
