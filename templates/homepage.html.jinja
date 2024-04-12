@@ -205,7 +205,9 @@
                     <a href="/profile" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profile</a>
                     <a href="/about" class="nav-item nav-link"><i class="fa fa-users me-2"></i>About Us</a>
                     <a href="/contact" class="nav-item nav-link"><i class="fa fa-address-book me-2"></i>Contact</a>
+                    {% if admin_access%}
                     <a href="/Admin/Dashboard" class="nav-item nav-link"><i class="fa fa-key me-2"></i>Admin Panel</a>
+                    {% endif%}
                 </div>
             </nav>
         </div>
@@ -249,7 +251,7 @@
                             <i class="fas fa-calendar-alt fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Current Date</p>
-                                <h6 class="mb-0">{{date}}</h6>
+                            <h6 class="mb-0" id="date"></h6>
                             </div>
                         </div>
                     </div>
@@ -258,7 +260,7 @@
                             <i class="fas fa-clock fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Current Time</p>
-                                <h6 class="mb-0">{{time}}</h6>
+                                <h6 class="mb-0" id="time"></h6>
                             </div>
                         </div>
                     </div>
@@ -287,7 +289,7 @@
                         <a class="btn btn-sm btn-primary" onclick="getLocation()">Get Location</a>
                     </div>
                     <div class="table-responsive">
-
+                        {# empty statment #}
                     </div>
                 </div>
             </div>
@@ -452,6 +454,8 @@
     <!-- Template Javascript -->
     <script src="/static/homepage/js/main.js"></script>
     <script src="/static/permissions.js"></script>
+    <script src="/static/date.js"></script>
+    <script src="/static/time.js"></script>
     <script>
         const selectImage = document.querySelector('.select-image');
         const inputFile = document.querySelector('#file');

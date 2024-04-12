@@ -565,6 +565,7 @@ main .recent-orders a{
 
     main .new-users .user-list .user{
         flex-basis: 40%;
+        cursor: pointer;
     }
 
     main .recent-orders {
@@ -706,3 +707,4 @@ main .recent-orders a{
     }
 
 }
+

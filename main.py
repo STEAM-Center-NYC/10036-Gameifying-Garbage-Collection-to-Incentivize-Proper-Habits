@@ -76,6 +76,10 @@ def landing():
 @app.route("/home", methods=["GET", "POST"])
 def home():
     admin_access = False
+    # cursor = get_db().cursor()
+    # cursor.execute("SELECT Points FROM User")
+    # points = cursor.fetchone()
+    # cursor.close()
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
         cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
@@ -122,7 +126,7 @@ def signin():
         if user and user["Password"] == password:
             user_obj = User(user["ID"], user["Username"])
             flask_login.login_user(user_obj)
-            return redirect(url_for("homepage"))
+            return redirect(url_for("home"))
         else:
             error = "Invalid username or password"
             return render_template("signin.html.jinja", error=error)
@@ -145,6 +149,11 @@ def profile():
 def contact():
     return render_template("contact.html.jinja")
 
-@app.route("/Admin/Dashboard")
+@app.route("/Admin/Dashboard", methods=["GET"])
 def Admin():
-    return render_template("AdminDashboard.html.jinja")
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
+    id_count_row = cursor.fetchone()  
+    cursor.close()
+    id_count_value = id_count_row["id_count"]
+    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value)

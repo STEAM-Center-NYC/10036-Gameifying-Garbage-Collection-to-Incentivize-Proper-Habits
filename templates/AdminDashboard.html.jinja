@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="/static/Adminstyle.css">
     <title>Responsive Dashboard Design #1 | AsmrProg</title>
 </head>
-
+<style>
+#clock {max-width: 12px;}
+</style>
 <body>
 
     <div class="container">
@@ -69,12 +71,7 @@
                     </span>
                     <h3>Settings</h3>
                 </a>
-                <a href="#">
-                    <span class="material-icons-sharp">
-                        add
-                    </span>
-                    <h3>New Login</h3>
-                </a>
+                
                 <a href="/home">
                     <span class="material-icons-sharp">
                         keyboard_return
@@ -82,7 +79,7 @@
                     <h3>Return to App</h3>
                 </a>
                 
-                <a href="#">
+                <a href="/logout">
                     <span class="material-icons-sharp">
                         logout
                     </span>
@@ -101,48 +98,31 @@
                 <div class="sales">
                     <div class="status">
                         <div class="info">
-                            <h3>Date</h3>
-                            <h1>$65,024</h1>
-                        </div>
-                        <div class="progresss">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="percentage">
-                                <p>+81%</p>
-                            </div>
+                            <h3>Current Date</h3>
+                            <h1 id="date"></h1>
+                            <h1 id="time"></h1>
                         </div>
                     </div>
                 </div>
                 <div class="visits">
                     <div class="status">
-                        <div class="info">
+                        <div class="info ">
                             <h3>Total Users</h3>
-                            <h1>24,981</h1>
+                            <h1>{{id_count_value}}</h1>
                         </div>
-                        <div class="progresss">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="percentage">
-                                <p>-48%</p>
-                            </div>
+                        <div class="progresss mt-3">
+                            
                         </div>
                     </div>
                 </div>
                 <div class="searches">
                     <div class="status">
                         <div class="info">
-                            <h3>Searches</h3>
-                            <h1>14,147</h1>
+                            <h3>Pending Request</h3>
+                            <h1>{{Pending}}</h1>
                         </div>
                         <div class="progresss">
-                            <svg>
-                                <circle cx="38" cy="38" r="36"></circle>
-                            </svg>
-                            <div class="percentage">
-                                <p>+21%</p>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -179,7 +159,7 @@
 
             <!-- Recent Orders Table -->
             <div class="recent-orders">
-                <h2>Recent Points Requests</h2>
+                <h2>Recent Point Requests</h2>
                 <table>
                     <thead>
                         <tr>
@@ -207,7 +187,9 @@
                         ">
                                 {{ request.status }}
                             </td>
-                            <td class="primary">Details</td>
+                            <td class="primary">
+                                <a href="#">Details</a>
+                            </td>
                         </tr>
                         {% endfor %}
                     
@@ -322,6 +304,8 @@
 
     <script src="/static/orders.js"></script>
     <script src="/static/AdminDashboard.js"></script>
+    <script src="/static/date.js"></script>
+    <script src="/static/time.js"></script>
 </body>
 
 </html>
