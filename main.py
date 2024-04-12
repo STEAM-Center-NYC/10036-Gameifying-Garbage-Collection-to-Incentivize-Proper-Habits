@@ -66,24 +66,39 @@ def landing():
     admin_access = False
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
-        cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
+        cursor.execute(
+            "SELECT * FROM Users WHERE ID = %s AND Admin = 1",
+            (flask_login.current_user.id,),
+        )
         admin_user = cursor.fetchone()
         cursor.close()
         if admin_user:
             admin_access = True
-    return render_template('index.html.jinja', admin_access=admin_access)
+    return render_template("index.html.jinja", admin_access=admin_access)
+
+
+@app.route("/map")
+def map_page():
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM `Bins`")
+    result = cursor.fetchall()
+    return render_template("map.html.jinja", locations=result)
+
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
     admin_access = False
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
-        cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
+        cursor.execute(
+            "SELECT * FROM Users WHERE ID = %s AND Admin = 1",
+            (flask_login.current_user.id,),
+        )
         admin_user = cursor.fetchone()
         cursor.close()
         if admin_user:
             admin_access = True
-    return render_template('homepage.html.jinja', admin_access=admin_access)
+    return render_template("homepage.html.jinja", admin_access=admin_access)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -102,7 +117,7 @@ def signup():
             error = "Username or email already exists"
             return render_template("signup.html.jinja", error=error)
         finally:
-            cursor.close()  
+            cursor.close()
     return render_template("signup.html.jinja")
 
 
@@ -122,28 +137,35 @@ def signin():
         if user and user["Password"] == password:
             user_obj = User(user["ID"], user["Username"])
             flask_login.login_user(user_obj)
-            return redirect(url_for("homepage"))
+            return redirect(url_for("home"))
         else:
             error = "Invalid username or password"
             return render_template("signin.html.jinja", error=error)
     return render_template("signin.html.jinja")
 
+
 @app.route("/logout")
 def logout():
     flask_login.logout_user()
-    return redirect('/')
+    return redirect("/")
+
 
 @app.route("/rewards")
 def rewards():
     return render_template("rewards.html.jinja")
 
+
 @app.route("/profile")
 def profile():
-    return render_template("profile.html.jinja",)
+    return render_template(
+        "profile.html.jinja",
+    )
+
 
 @app.route("/contact")
 def contact():
     return render_template("contact.html.jinja")
+
 
 @app.route("/Admin/Dashboard")
 def Admin():
