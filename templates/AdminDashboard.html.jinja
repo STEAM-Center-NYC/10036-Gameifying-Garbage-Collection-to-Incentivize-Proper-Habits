@@ -118,7 +118,7 @@
                 <div class="searches">
                     <div class="status">
                         <div class="info">
-                            <h3>Pending Request</h3>
+                            <h3>Total Pending Request</h3>
                             <h1>{{Pending}}</h1>
                         </div>
                         <div class="progresss">
@@ -221,7 +221,7 @@
 
                 <div class="profile">
                     <div class="info">
-                        <p>Welcome, <b>{{ current_user.username }}</b></p>
+                        <p>{{greeting}} <b>{{ current_user.username }} !</b></p>
                         <small class="text-muted">Admin</small>
                     </div>
                     <div class="profile-photo">
@@ -301,8 +301,6 @@
 
 
     </div>
-
-    <script src="/static/orders.js"></script>
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
