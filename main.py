@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, g, url_for
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
+import random
 import os
 import flask_login
 import pymysql
@@ -89,6 +90,24 @@ def map_page():
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
+
+    admin_access = False
+    cursor = get_db().cursor()
+    cursor.execute("SELECT Points FROM Users")
+    points_dict = cursor.fetchone()
+    points = points_dict['Points'] if points_dict else 0
+    
+    cursor.execute("SELECT * FROM Bins")
+    all_bins_data = cursor.fetchall()
+    
+    bins_data = []
+    while len(bins_data) < 5:
+        random.shuffle(all_bins_data)
+        bins_data = [bin_data for bin_data in all_bins_data if bin_data.get('SiteLocation') and bin_data['SiteLocation'].lower() != 'nan']
+
+    bins_data = bins_data[:5]
+    cursor.close()
+
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
         cursor.execute(
@@ -99,10 +118,9 @@ def home():
         cursor.close()
         if admin_user:
             admin_access = True
-    cursor = get_db().cursor()
-    cursor.execute("SELECT * FROM `Bins`")
-    result = cursor.fetchall()
-    return render_template("homepage.html.jinja", admin_access=admin_access, locations=result)
+
+
+    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -153,12 +171,24 @@ def logout():
     flask_login.logout_user()
     return redirect("/")
 
+@app.route("/profile", methods=["GET", "POST"])
+@flask_login.login_required
 
-@app.route("/profile")
 def profile():
-    return render_template(
-        "profile.html.jinja",
-    )
+    if request.method == "POST":
+        about_me = request.form.get("about_me")
+        if about_me:
+            cursor = get_db().cursor()
+            cursor.execute("UPDATE Users SET About = %s WHERE ID = %s", (about_me, flask_login.current_user.id))
+            get_db().commit()
+            cursor.close()
+            return redirect(url_for("profile"))
+    cursor = get_db().cursor()
+    cursor.execute("SELECT About FROM Users WHERE ID = %s", (flask_login.current_user.id,))
+    user_data = cursor.fetchone()
+    cursor.close()
+    return render_template("profile.html.jinja", about=user_data["About"])
+
 
 
 @app.route("/contact", methods=["POST"])

@@ -194,11 +194,11 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                    <a href="/profile">
-                    
-                        <img class="rounded-circle" src="/static/images/emptyuser.png" alt=""
-                            style="width: 40px; height: 40px;">
-                    </a>
+                        <a href="/profile">
+
+                            <img class="rounded-circle" src="/static/images/emptyuser.png" alt=""
+                                style="width: 40px; height: 40px;">
+                        </a>
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0">{{ current_user.username }}</h6>
@@ -260,7 +260,7 @@
                             <i class="fas fa-calendar-alt fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Current Date</p>
-                            <h6 class="mb-0" id="date"></h6>
+                                <h6 class="mb-0" id="date"></h6>
                             </div>
                         </div>
                     </div>
@@ -287,8 +287,8 @@
             <!-- Date & Time End -->
 
             <!-- Reward Points Start -->
-               
-             <!-- Reward Points End -->       
+
+            <!-- Reward Points End -->
 
             <!-- Map Start -->
             <div class="container-fluid pt-4 px-4">
@@ -314,55 +314,29 @@
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr class="text-white">
-                                    <th scope="col">Site Type</th>
+                                    <th scope="col">Site Location</th>
                                     <th scope="col">DSNY Zone</th>
                                     <th scope="col">DSNY District</th>
-                                    <th scope="col">Site Location</th>
                                     <th scope="col">Zip Code</th>
+                                    <th scope="col">Bin Type</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for bin in bins_data[:5] %}
                                 <tr>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
+                                    <td>{{ bin['SiteLocation'] }}</td>
+                                    <td>{{ bin['DSNYZone'] }}</td>
+                                    <td>{{ bin['DSNYDistrict'] }}</td>
+                                    {% if bin['Zipcode'] == None %}
+                                    <td>Not Found</td>
+                                    {% else %}
+                                    <td>{{ bin['Zipcode'] }}</td>
+                                    {% endif %}
+                                    <td>{{ bin['BinType'] }}</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
-                                <tr>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
-                                <tr>
-                                    <td>01 Jan 2045</td>
-                                    <td>INV-0123</td>
-                                    <td>Jhon Doe</td>
-                                    <td>$123</td>
-                                    <td>Paid</td>
-                                    <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -404,10 +378,10 @@
                             </div>
                             <div class="mb-2">
                                 <br>
-                                {# {%    %} #}
+                                {# {% %} #}
                             </div>
                             <div style="display: inline-block; text-align: left; margin-right: 50px;">
-                                <p style="display: inline;">Disposal Points:  {{points}}</p>
+                                <p style="display: inline;">Disposal Points: {{points}}</p>
                             </div>
                             <div style="display: inline-block; text-align: right; margin-left: 50px;">
                                 <p style="display: inline;">Date Submitted: {{date}}</p>
