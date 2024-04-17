@@ -106,7 +106,6 @@ def home():
         bins_data = [bin_data for bin_data in all_bins_data if bin_data.get('SiteLocation') and bin_data['SiteLocation'].lower() != 'nan']
 
     bins_data = bins_data[:5]
-    cursor.close()
 
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
@@ -115,12 +114,14 @@ def home():
             (flask_login.current_user.id,),
         )
         admin_user = cursor.fetchone()
-        cursor.close()
         if admin_user:
             admin_access = True
 
+    cursor.execute("SELECT * FROM `Bins`")
+    result = cursor.fetchall()
+    cursor.close()
 
-    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data)
+    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data, locations=result)
 
 
 @app.route("/signup", methods=["GET", "POST"])
