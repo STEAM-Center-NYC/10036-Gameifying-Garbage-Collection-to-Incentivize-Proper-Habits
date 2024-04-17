@@ -1,2 +1,9 @@
 settings.toml
 __pycache__/*
+
+electronics.csv
+foodscrap.csv
+leafs.csv
+recycle.csv
+specialwaste.csv
+syringepharma.csv

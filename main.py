@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, g, url_for
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
+import random
+import os
 import flask_login
 import pymysql
 import pymysql.cursors
+from datetime import datetime
+
 
 app = Flask(__name__)
 settings = Dynaconf(settings_file=["settings.toml"])
@@ -65,23 +69,62 @@ def landing():
     admin_access = False
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
-        cursor.execute("SELECT * FROM Users WHERE ID = %s AND Admin = 1", (flask_login.current_user.id,))
+        cursor.execute(
+            "SELECT * FROM Users WHERE ID = %s AND Admin = 1",
+            (flask_login.current_user.id,),
+        )
         admin_user = cursor.fetchone()
         cursor.close()
         if admin_user:
             admin_access = True
-    return render_template('index.html.jinja', admin_access=admin_access)
+    return render_template("index.html.jinja", admin_access=admin_access)
 
 
+@app.route("/map")
+def map_page():
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM `Bins`")
+    result = cursor.fetchall()
+    return render_template("map.html.jinja", locations=result)
 
-@app.route("/homepage")
-def homepage():
-    return render_template("homepage.html.jinja")
+
+@app.route("/home", methods=["GET", "POST"])
+def home():
+
+    admin_access = False
+    cursor = get_db().cursor()
+    cursor.execute("SELECT Points FROM Users")
+    points_dict = cursor.fetchone()
+    points = points_dict['Points'] if points_dict else 0
+    
+    cursor.execute("SELECT * FROM Bins")
+    all_bins_data = cursor.fetchall()
+    
+    bins_data = []
+    while len(bins_data) < 5:
+        random.shuffle(all_bins_data)
+        bins_data = [bin_data for bin_data in all_bins_data if bin_data.get('SiteLocation') and bin_data['SiteLocation'].lower() != 'nan']
+
+    bins_data = bins_data[:5]
+    cursor.close()
+
+    if flask_login.current_user.is_authenticated:
+        cursor = get_db().cursor()
+        cursor.execute(
+            "SELECT * FROM Users WHERE ID = %s AND Admin = 1",
+            (flask_login.current_user.id,),
+        )
+        admin_user = cursor.fetchone()
+        cursor.close()
+        if admin_user:
+            admin_access = True
+
+
+    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data)
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if flask_login.current_user.is_authenticated:
-        return redirect("/homepage")
     if request.method == "POST":
         try:
             username = request.form["username"]
@@ -96,14 +139,14 @@ def signup():
             error = "Username or email already exists"
             return render_template("signup.html.jinja", error=error)
         finally:
-            cursor.close()  
+            cursor.close()
     return render_template("signup.html.jinja")
 
 
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if flask_login.current_user.is_authenticated:
-        return redirect("/")
+        return redirect("/home")
     if request.method == "POST":
         identifier = request.form["identifier"]
         password = request.form["password"]
@@ -116,20 +159,56 @@ def signin():
         if user and user["Password"] == password:
             user_obj = User(user["ID"], user["Username"])
             flask_login.login_user(user_obj)
-            return redirect(url_for("homepage"))
+            return redirect(url_for("home"))
         else:
             error = "Invalid username or password"
             return render_template("signin.html.jinja", error=error)
     return render_template("signin.html.jinja")
 
-@app.route("/rewards")
-def rewards():
-    return render_template("rewards.html.jinja")
 
-@app.route("/profile")
+@app.route("/logout")
+def logout():
+    flask_login.logout_user()
+    return redirect("/")
+
+@app.route("/profile", methods=["GET", "POST"])
+@flask_login.login_required
+
 def profile():
-    return render_template("profile.html.jinja")
+    if request.method == "POST":
+        about_me = request.form.get("about_me")
+        if about_me:
+            cursor = get_db().cursor()
+            cursor.execute("UPDATE Users SET About = %s WHERE ID = %s", (about_me, flask_login.current_user.id))
+            get_db().commit()
+            cursor.close()
+            return redirect(url_for("profile"))
+    cursor = get_db().cursor()
+    cursor.execute("SELECT About FROM Users WHERE ID = %s", (flask_login.current_user.id,))
+    user_data = cursor.fetchone()
+    cursor.close()
+    return render_template("profile.html.jinja", about=user_data["About"])
 
-@app.route("/contact")
+
+
+@app.route("/contact", methods=["POST"])
 def contact():
     return render_template("contact.html.jinja")
+
+def is_morning():
+    now = datetime.now()
+    return now.hour < 12
+
+@app.route("/Admin/Dashboard", methods=["GET"])
+def Admin():
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
+    id_count_row = cursor.fetchone()  
+    cursor.close()
+    id_count_value = id_count_row["id_count"]
+    
+    if is_morning():
+        greeting = "Good morning,"
+    else:
+        greeting = "Hello,"
+    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)

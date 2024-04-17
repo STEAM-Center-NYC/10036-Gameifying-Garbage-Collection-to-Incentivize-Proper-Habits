@@ -1,3 +1,4 @@
+
 :root {
     --blue: #5e72e4;
     --indigo: #5603ad;
@@ -70,8 +71,8 @@
     line-height: 1.5;
     margin: 0;
     text-align: left;
-    color: #525f7f;
-    background-color: #f8f9fe;
+    color: #9ea5ae;
+    background-color: #001f3f;
   }
   
   [tabindex='-1']:focus {
@@ -285,7 +286,7 @@
     font-weight: 600;
     line-height: 1.5;
     margin-bottom: .5rem;
-    color: #32325d;
+    color: #fff;
   }
   
   h1,
@@ -493,9 +494,9 @@
     padding: .625rem .75rem;
     transition: all .2s cubic-bezier(.68, -.55, .265, 1.55);
     color: #8898aa;
-    border: 1px solid #cad1d7;
+    border: 1px solid #001f3f;
     border-radius: .375rem;
-    background-color: #fff;
+    background-color: #001f3f;
     background-clip: padding-box;
     box-shadow: none;
   }
@@ -515,7 +516,7 @@
     color: #8898aa;
     border-color: rgba(50, 151, 211, .25);
     outline: 0;
-    background-color: #fff;
+    background-color: #001f3f;
     box-shadow: none, none;
   }
   
@@ -1018,9 +1019,9 @@
     flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
-    border: 1px solid rgba(0, 0, 0, .05);
+    border: 1px solid #001528;
     border-radius: .375rem;
-    background-color: #fff;
+    background-color: #001528;
     background-clip: border-box;
   }
   
@@ -1032,13 +1033,14 @@
   .card-body {
     padding: 1.5rem;
     flex: 1 1 auto;
+    background-color: #001528;
   }
   
   .card-header {
     margin-bottom: 0;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, .05);
-    background-color: #fff;
+    background-color: #001528;
   }
   
   .card-header:first-child {
@@ -1061,7 +1063,7 @@
     overflow: hidden;
     height: 1rem;
     border-radius: .375rem;
-    background-color: #e9ecef;
+    background-color: #8898aa;
     box-shadow: inset 0 .1rem .1rem rgba(0, 0, 0, .1);
   }
   
@@ -1375,7 +1377,7 @@
   }
   
   .bg-white {
-    background-color: #fff !important;
+    background-color: #001528 !important;
   }
   
   a.bg-white:hover,
@@ -1570,7 +1572,7 @@
   
   .card-profile-stats>div .description {
     font-size: .875rem;
-    color: #adb5bd;
+    color: #fff;
   }
   
   .main-content {
@@ -1638,7 +1640,7 @@
   
   .footer {
     padding: 2.5rem 0;
-    background: #f7fafc;
+    background: #001f3f;
   }
   
   .footer .nav .nav-item .nav-link {
@@ -1752,7 +1754,7 @@
   .focused .input-group-text {
     color: #8898aa;
     border-color: rgba(50, 151, 211, .25);
-    background-color: #fff;
+    background-color: #001f3f;
   }
   
   .focused .form-control {
@@ -1814,7 +1816,7 @@
   .focused .input-group-text {
     color: #8898aa;
     border-color: rgba(50, 151, 211, .25);
-    background-color: #fff;
+    background-color: #001f3f;
   }
   
   .focused .form-control {
@@ -1911,7 +1913,7 @@
       content: '';
       transform: rotate(-45deg) translateY(12px);
       border-radius: 2px;
-      background: #fff;
+      background: #001f3f;
       box-shadow: none;
     }
   
@@ -2031,3 +2033,5 @@
   #navbar .navbar {
     margin-bottom: 20px;
   }
+
+  

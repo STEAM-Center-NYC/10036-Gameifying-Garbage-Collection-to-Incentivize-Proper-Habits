@@ -1,0 +1,45 @@
+<div id="map"></div>
+
+<script>
+    var map = L.map('map').fitWorld();
+
+    map.fitBounds([
+        [40.727805, -74.0295408],
+        [40.6562833, -73.8604929]
+    ]);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    {% for locations in locations[: 50] %}
+    L.marker([{{ locations['Latitude'] }}, {{ locations['Longitude']}}])
+        .addTo(map)
+        .bindPopup("<b>{{ locations['SiteLocation'] }}</b><br>");
+    {% endfor %}
+
+    map.locate({ setView: true, maxZoom: 14, enableHighAccuracy: true });
+
+    function onLocationFound(e) {
+        var radius = e.accuracy;
+        var greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+        L.marker((e.latlng), { icon: greenIcon })
+            .addTo(map)
+            .bindPopup("<b>You are Here</b>")
+            .openPopup();
+    }
+
+    function onLocationError(e) {
+        alert(e.message);
+    }
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+</script>
