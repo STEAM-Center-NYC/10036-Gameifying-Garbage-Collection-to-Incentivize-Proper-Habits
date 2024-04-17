@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, g, url_for
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
 import random
-import os
 import flask_login
 import pymysql
 import pymysql.cursors
