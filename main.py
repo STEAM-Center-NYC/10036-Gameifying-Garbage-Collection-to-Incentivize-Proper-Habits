@@ -6,6 +6,8 @@ import os
 import flask_login
 import pymysql
 import pymysql.cursors
+from datetime import datetime
+
 
 app = Flask(__name__)
 settings = Dynaconf(settings_file=["settings.toml"])
@@ -88,6 +90,7 @@ def map_page():
 
 @app.route("/home", methods=["GET", "POST"])
 def home():
+
     admin_access = False
     cursor = get_db().cursor()
     cursor.execute("SELECT Points FROM Users")
@@ -116,8 +119,8 @@ def home():
         if admin_user:
             admin_access = True
 
-    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data)
 
+    return render_template("homepage.html.jinja", admin_access=admin_access, points=points, bins_data=bins_data)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -168,14 +171,9 @@ def logout():
     flask_login.logout_user()
     return redirect("/")
 
-
-@app.route("/rewards")
-def rewards():
-    return render_template("rewards.html.jinja")
-
-
 @app.route("/profile", methods=["GET", "POST"])
 @flask_login.login_required
+
 def profile():
     if request.method == "POST":
         about_me = request.form.get("about_me")
@@ -193,10 +191,13 @@ def profile():
 
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["POST"])
 def contact():
     return render_template("contact.html.jinja")
 
+def is_morning():
+    now = datetime.now()
+    return now.hour < 12
 
 @app.route("/Admin/Dashboard", methods=["GET"])
 def Admin():
@@ -205,4 +206,9 @@ def Admin():
     id_count_row = cursor.fetchone()  
     cursor.close()
     id_count_value = id_count_row["id_count"]
-    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value)
+    
+    if is_morning():
+        greeting = "Good morning,"
+    else:
+        greeting = "Hello,"
+    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)
