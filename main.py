@@ -32,7 +32,7 @@ def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
         user=settings.db_user,
-        password=settings.db_pass,
+        password=str(settings.db_pass),
         database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
