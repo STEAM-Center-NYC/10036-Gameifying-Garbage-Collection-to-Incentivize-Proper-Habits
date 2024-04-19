@@ -191,7 +191,7 @@ def profile():
 
 
 
-@app.route("/contact", methods=["POST"])
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
     return render_template("contact.html.jinja")
 
@@ -212,3 +212,7 @@ def Admin():
     else:
         greeting = "Hello,"
     return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)
+
+@app.route("/Index2")
+def NewIndex():
+    return render_template("index2.html.jinja")
