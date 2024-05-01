@@ -3,3 +3,5 @@ PyMySQL==1.1.0
 Flask-Login==0.6.3
 gunicorn==22.0.0
 dynaconf==3.2.4
+wtforms==3.1.2
+Flask-wtf==1.2.1
