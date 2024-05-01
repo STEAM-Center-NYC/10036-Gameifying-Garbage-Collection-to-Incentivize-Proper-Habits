@@ -535,6 +535,19 @@ main .recent-orders a{
     gap: 0.6rem;
 }
 
+
+.text-success {
+    color: #41fb3a;
+}
+
+.text-warning {
+    color: #f9fb07;
+}
+
+.text-danger{
+    color: #f42929;
+}
+
 @media screen and (max-width: 1200px) {
     .container{
         width: 95%;
