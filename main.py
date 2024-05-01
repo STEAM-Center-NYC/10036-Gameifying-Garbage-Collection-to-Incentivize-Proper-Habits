@@ -6,7 +6,6 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from werkzeug.utils import secure_filename
 import random
-import os
 import flask_login
 import pymysql
 import pymysql.cursors
@@ -39,7 +38,7 @@ def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
         user=settings.db_user,
-        password=settings.db_pass,
+        password=str(settings.db_pass),
         database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
@@ -249,11 +248,9 @@ def profile():
     cursor.close()
     return render_template("profile.html.jinja", about=user_data["About"])
 
-
-@app.route("/contact", methods=["POST"])
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
     return render_template("contact.html.jinja")
-
 
 def is_morning():
     now = datetime.now()
@@ -294,3 +291,8 @@ def Admin():
         greeting=greeting,
         Requests=Requests, 
     )
+    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)
+
+@app.route("/Index2")
+def NewIndex():
+    return render_template("index2.html.jinja")
