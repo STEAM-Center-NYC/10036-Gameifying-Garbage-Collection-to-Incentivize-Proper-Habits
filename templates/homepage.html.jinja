@@ -30,9 +30,8 @@
     <link href="/static/homepage/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"   
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <style>
     .center-item {
@@ -353,19 +352,23 @@
                             <div class="d-flex align-items-center justify-content-center mb-4">
                                 <h6 class="mb-0 text-center">Disposal Image</h6>
                             </div>
-                            <form method="post">
+                            <form method="POST" enctype="multipart/form-data">
+                                {{ form.hidden_tag() }}
                                 <div class="center-item">
                                     <div class="container2">
-                                        <input type="file" id="file" accept="image/*" hidden>
+                                        {{ form.file(hidden=true)}}
                                         <div class="img-area" data-img="">
                                             <i class='bx bxs-cloud-upload icon'></i>
                                             <h3>Upload Image</h3>
                                             <p>Image size must be less than <span>5MB</span></p>
                                         </div>
-                                        <button type="button" class="select-image" id="select-image">Select
-                                            Image</button>
-                                        <button type="submit" class="submit-button" id="submit-image"
-                                            style="display: none;">Submit Image</button>
+                                        {{ form.file.label(class_='select-image', id='select-image') }}
+
+                                        {{ form.submit(class_='submit-button', id='submit-image', style='display:
+                                        none;') }}
+                                        {# {% if filesent %}
+                                        <div class="alert alert-danger" role="alert">{{ filesent }}</div>
+                                        {% endif %} #}
                                     </div>
                                 </div>
                             </form>
@@ -418,7 +421,8 @@
 
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" onclick="scrollToTop(); return false;"><i class="bi bi-arrow-up"></i></a>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" onclick="scrollToTop(); return false;"><i
+                class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->
@@ -441,11 +445,6 @@
         const selectImage = document.querySelector('.select-image');
         const inputFile = document.querySelector('#file');
         const imgArea = document.querySelector('.img-area');
-
-        selectImage.addEventListener('click', function () {
-            inputFile.click();
-        })
-
 
         inputFile.addEventListener('change', function () {
             const image = this.files[0]
@@ -471,17 +470,17 @@
 
         }
         )
-        
-        function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-document.addEventListener("DOMContentLoaded", function() {
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
             // Show the spinner when DOM content is loaded
             document.getElementById("spinner").classList.add("show");
         });
 
-        window.addEventListener("load", function() {
+        window.addEventListener("load", function () {
             // Hide the spinner when all resources (including images and stylesheets) have finished loading
             document.getElementById("spinner").classList.remove("show");
         });
