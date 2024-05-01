@@ -9,8 +9,11 @@
     <title>BinBuddy- Admin Dashboard</title>
 </head>
 <style>
-#clock {max-width: 12px;}
+    #clock {
+        max-width: 12px;
+    }
 </style>
+
 <body>
 
     <div class="container">
@@ -71,21 +74,21 @@
                     </span>
                     <h3>Settings</h3>
                 </a>
-                
+
                 <a href="/home">
                     <span class="material-icons-sharp">
                         keyboard_return
                     </span>
                     <h3>Return to App</h3>
                 </a>
-                
+
                 <a href="/logout">
                     <span class="material-icons-sharp">
                         logout
                     </span>
                     <h3>Logout</h3>
                 </a>
-                
+
             </div>
         </aside>
         <!-- End of Sidebar Section -->
@@ -112,7 +115,7 @@
                             <h1>{{id_count_value}}</h1>
                         </div>
                         <div class="progresss mt-3">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -123,7 +126,7 @@
                             <h1>{{Pending}}</h1>
                         </div>
                         <div class="progresss">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -168,6 +171,7 @@
                             <th>Points</th>
                             <th>Request</th>
                             <th>Status</th>
+                            <th>Response</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -176,24 +180,26 @@
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
-                            <td>{{ request.Request }}</td>
+                            <td>{{ request.status }}</td>
                             <td class="
-                          {% if request.status == 'Declined' %}
-                            danger
-                          {% elif request.status == 'Pending' %}
-                            warning
+                          {% if request.Request == 'Declined' %}
+                            text-danger
+                          {% elif request.Request == 'Pending' %}
+                            text-warning
                           {% else %}
-                            success
+                            text-success
                           {% endif %}
                         ">
-                                {{ request.status }}
+                                {{ request.Request }}
                             </td>
+                            
+                            <td></td>
                             <td class="primary">
                                 <a href="#">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
-                    
+
                     </tbody>
                 </table>
                 <a href="#">Show All</a>

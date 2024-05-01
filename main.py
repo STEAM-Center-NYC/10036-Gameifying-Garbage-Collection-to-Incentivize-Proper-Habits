@@ -166,7 +166,6 @@ def home():
         else:
             filesent = "Please select an image file to upload."
 
-
     return render_template(
         "homepage.html.jinja",
         admin_access=admin_access,
@@ -257,18 +256,41 @@ def is_morning():
     now = datetime.now()
     return now.hour < 12
 
-@app.route("/Admin/Dashboard", methods=["GET"])
+
+@app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def Admin():
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
-    cursor.close()
     id_count_value = id_count_row["id_count"]
 
     if is_morning():
         greeting = "Good morning,"
     else:
         greeting = "Hello,"
+
+    cursor.execute(
+        """
+        SELECT 
+            u.username as Username, 
+            r.Image as Image, 
+            CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
+                 WHEN r.ImageVerified = 0 THEN 'Pending' 
+                 ELSE 'Declined' END as Request,
+            r.Points as Status
+        FROM Rewards r
+        JOIN Users u ON r.User_ID = u.ID
+        """
+    )
+    Requests = cursor.fetchall()
+    cursor.close()
+
+    return render_template(
+        "AdminDashboard.html.jinja",
+        id_count_value=id_count_value,
+        greeting=greeting,
+        Requests=Requests, 
+    )
     return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)
 
 @app.route("/Index2")
