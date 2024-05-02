@@ -272,12 +272,6 @@ def Admin():
     else:
         greeting = "Hello,"
 
-
-    cursor.execute("SELECT Points FROM Users")
-    points_dict = cursor.fetchone()
-    points = points_dict["Points"] if points_dict else 0
-
-    
     cursor.execute(
         """
         SELECT 
@@ -298,5 +292,5 @@ def Admin():
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
-        Requests=Requests
+        Requests=Requests,
     )
