@@ -272,15 +272,21 @@ def Admin():
     else:
         greeting = "Hello,"
 
+
+    cursor.execute("SELECT Points FROM Users")
+    points_dict = cursor.fetchone()
+    points = points_dict["Points"] if points_dict else 0
+
+    
     cursor.execute(
         """
         SELECT 
             u.username as Username, 
             r.Image as Image, 
             CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
-                 WHEN r.ImageVerified = 0 THEN 'Pending' 
-                 ELSE 'Declined' END as Request,
-            r.Points as Status
+                WHEN r.ImageVerified = 0 THEN 'Pending' 
+                ELSE 'Declined' END as Request,
+            u.Points as Points  -- Fetch user's points directly
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
         """
@@ -292,5 +298,5 @@ def Admin():
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
-        Requests=Requests, 
+        Requests=Requests
     )
