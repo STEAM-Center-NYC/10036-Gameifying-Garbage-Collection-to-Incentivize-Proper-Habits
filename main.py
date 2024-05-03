@@ -354,4 +354,3 @@ def photo(request_id):
         return "Error: Image not found"
 
     return render_template("photo.html.jinja", image_data=image_data)
-
