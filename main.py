@@ -288,7 +288,7 @@ def AdminDashboard():
     cursor.close()
 
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
@@ -314,6 +314,8 @@ def AdminRequest():
             r.Points as Status
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
+        WHERE r.ImageVerified = 0
+
         """
 
     )
@@ -322,7 +324,7 @@ def AdminRequest():
 
    
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
@@ -332,7 +334,7 @@ def AdminRequest():
 def AdminUser():
 
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
