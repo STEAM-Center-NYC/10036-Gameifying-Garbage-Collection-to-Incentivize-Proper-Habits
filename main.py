@@ -39,7 +39,7 @@ def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
         user=settings.db_user,
-        password=settings.db_pass,
+        password=str(settings.db_pass),
         database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True,
@@ -249,11 +249,9 @@ def profile():
     cursor.close()
     return render_template("profile.html.jinja", about=user_data["About"])
 
-
-@app.route("/contact", methods=["POST"])
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
     return render_template("contact.html.jinja")
-
 
 def is_morning():
     now = datetime.now()
@@ -261,7 +259,7 @@ def is_morning():
 
 
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
-def Admin():
+def AdminDashboard():
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
@@ -289,12 +287,56 @@ def Admin():
     Requests = cursor.fetchall()
     cursor.close()
 
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
     return render_template(
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
-        Requests=Requests,
+        Requests=Requests, 
+        TicketCount=TicketCount
     )
+
+@app.route("/Admin/Request")
+def AdminRequest():
+    cursor = get_db().cursor()
+    cursor.execute(
+        """
+        SELECT 
+            u.username as Username, 
+            r.Image as Image, 
+            CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
+                 WHEN r.ImageVerified = 0 THEN 'Pending' 
+                 ELSE 'Declined' END as Request,
+            r.Points as Status
+        FROM Rewards r
+        JOIN Users u ON r.User_ID = u.ID
+        """
+
+    )
+    Requests = cursor.fetchall()
+    cursor.close()
+
+   
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
+    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount)
+
+@app.route("/Admin/Users")
+def AdminUser():
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
+    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount)
 
 
 @app.route("/photo/<int:request_id>")
