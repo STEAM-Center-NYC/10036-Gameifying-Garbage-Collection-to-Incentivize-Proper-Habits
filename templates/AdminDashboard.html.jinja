@@ -123,7 +123,7 @@
                     <div class="status">
                         <div class="info">
                             <h3>Total Pending Request</h3>
-                            <h1>{{Pending}}</h1>
+                            <h1>{{TicketCount}}</h1>
                         </div>
                         <div class="progresss">
 
@@ -180,6 +180,7 @@
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
+                            <td>{{ request.Requests }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
                 {% if request.Request == 'Declined' %}

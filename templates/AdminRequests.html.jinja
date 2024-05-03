@@ -104,7 +104,7 @@
                     <thead>
                         <tr>
                             <th>Username</th>
-                            <th>Points</th>
+                            <th>User Points</th>
                             <th>Request</th>
                             <th>Status</th>
                             <th>Response</th>
@@ -131,14 +131,13 @@
                             
                             <td></td>
                             <td class="primary">
-                                <a href="#">Details</a>
+                                <a href="{{ url_for('photo', request_id=request['Reward_ID']) }}">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
 
                     </tbody>
                 </table>
-                <a href="#">Show All</a>
             </div>
             <!-- End of Recent Orders -->
 

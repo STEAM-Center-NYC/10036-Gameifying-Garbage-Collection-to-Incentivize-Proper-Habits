@@ -311,24 +311,28 @@ def AdminRequest():
             CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
                  WHEN r.ImageVerified = 0 THEN 'Pending' 
                  ELSE 'Declined' END as Request,
-            r.Points as Status
+            u.Points as Points,
+            r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
         WHERE r.ImageVerified = 0
 
         """
-
     )
     Requests = cursor.fetchall()
     cursor.close()
-
    
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
-    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount)
+    if is_morning():
+        greeting = "Good morning,"
+    else:
+        greeting = "Hello,"
+
+    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount, greeting=greeting)
 
 @app.route("/Admin/Users")
 def AdminUser():
@@ -338,7 +342,12 @@ def AdminUser():
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
-    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount)
+    if is_morning():
+        greeting = "Good morning,"
+    else:
+        greeting = "Hello,"
+
+    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting)
 
 
 @app.route("/photo/<int:request_id>")
