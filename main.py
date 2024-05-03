@@ -278,9 +278,10 @@ def Admin():
             u.username as Username, 
             r.Image as Image, 
             CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
-                WHEN r.ImageVerified = 0 THEN 'Pending' 
-                ELSE 'Declined' END as Request,
-            u.Points as Points  -- Fetch user's points directly
+                 WHEN r.ImageVerified = 0 THEN 'Pending' 
+                 ELSE 'Declined' END as Request,
+            u.Points as Points,
+            r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
         """
@@ -294,3 +295,18 @@ def Admin():
         greeting=greeting,
         Requests=Requests,
     )
+
+
+@app.route("/photo/<int:request_id>")
+def photo(request_id):
+    cursor = get_db().cursor()
+    cursor.execute(
+        "SELECT ImageName, Image FROM Rewards WHERE Reward_ID = %s", (request_id,)
+    )
+    image_data = cursor.fetchone()
+    cursor.close()
+
+    if not image_data:
+        return "Error: Image not found"
+
+    return render_template("photo.html.jinja", image_data=image_data)
