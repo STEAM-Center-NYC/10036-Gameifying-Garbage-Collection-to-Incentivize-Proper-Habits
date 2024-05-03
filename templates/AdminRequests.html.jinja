@@ -31,7 +31,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="/Admin/Dashboard" class="active">
+                <a href="/Admin/Dashboard">
                     <span class="material-icons-sharp">
                         insights
                     </span>
@@ -43,7 +43,7 @@
                     </span>
                     <h3>Users</h3>
                 </a>
-                <a href="/Admin/Request">
+                <a href="/Admin/Request" class="active">
                     <span class="material-icons-sharp">
                         mail_outline
                     </span>
@@ -95,83 +95,19 @@
 
         <!-- Main Content -->
         <main>
-        
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Current Date</h3>
-                            <h1 id="date"></h1>
-                            <h1 id="time"></h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info ">
-                            <h3>Total Users</h3>
-                            <h1>{{id_count_value}}</h1>
-                        </div>
-                        <div class="progresss mt-3">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Pending Request</h3>
-                            <h1>{{Pending}}</h1>
-                        </div>
-                        <div class="progresss">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Analyses -->
-
-            <!-- New Users Section -->
-            <div class="new-users">
-                <h2>New Users</h2>
-                <div class="user-list">
-                    <div class="user">
-                        <img src="/static/images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/plus.png">
-                        <h2>More</h2>
-                        <p>New User</p>
-                    </div>
-                </div>
-            </div>
+            <h1>Request</h1>
             <!-- End of New Users Section -->
 
             <!-- Recent Orders Table -->
             <div class="recent-orders">
-                <h2>Recent Point Requests</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>Username</th>
-                            <th>User Points</th>
+                            <th>Points</th>
                             <th>Request</th>
                             <th>Status</th>
-                            <th colspan="2">Response</th>
+                            <th>Response</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -182,30 +118,27 @@
                             <td>{{ request.Points }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                {% if request.Request == 'Declined' %}
-                    text-danger
-                {% elif request.Request == 'Pending' %}
-                    text-warning
-                {% else %}
-                    text-success
-                {% endif %}
-                ">
+                          {% if request.Request == 'Declined' %}
+                            text-danger
+                          {% elif request.Request == 'Pending' %}
+                            text-warning
+                          {% else %}
+                            text-success
+                          {% endif %}
+                        ">
                                 {{ request.Request }}
                             </td>
-                            <td class="text-center">
-                                <a href="accept" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-sm btn-danger"> <i class="fas fa-times"></i></a>
-                            </td>
+                            
+                            <td></td>
                             <td class="primary">
                                 <a href="#">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
+
                     </tbody>
                 </table>
-                <a href="/Admin/Request">Show All</a>
+                <a href="#">Show All</a>
             </div>
             <!-- End of Recent Orders -->
 
