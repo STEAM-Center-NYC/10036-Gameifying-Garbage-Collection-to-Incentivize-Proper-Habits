@@ -259,7 +259,7 @@ def is_morning():
 
 
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
-def Admin():
+def AdminDashboard():
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
@@ -286,14 +286,52 @@ def Admin():
     Requests = cursor.fetchall()
     cursor.close()
 
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
     return render_template(
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
         Requests=Requests, 
+        TicketCount=TicketCount
     )
-    return render_template("AdminDashboard.html.jinja", id_count_value=id_count_value, greeting=greeting)
 
-@app.route("/Index2")
-def NewIndex():
-    return render_template("index2.html.jinja")
+@app.route("/Admin/Request")
+def AdminRequest():
+    cursor = get_db().cursor()
+    cursor.execute(
+        """
+        SELECT 
+            u.username as Username, 
+            r.Image as Image, 
+            CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
+                 WHEN r.ImageVerified = 0 THEN 'Pending' 
+                 ELSE 'Declined' END as Request,
+            r.Points as Status
+        FROM Rewards r
+        JOIN Users u ON r.User_ID = u.ID
+        """
+    )
+    Requests = cursor.fetchall()
+    cursor.close()
+
+   
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
+    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount)
+
+@app.route("/Admin/Users")
+def AdminUser():
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    TicketCount = cursor.fetchone()['COUNT(*)']
+    cursor.close()
+
+    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount)

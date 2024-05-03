@@ -31,13 +31,13 @@
             </div>
 
             <div class="sidebar">
-                <a href="/Admin/Dashboard" class="active">
+                <a href="/Admin/Dashboard">
                     <span class="material-icons-sharp">
                         insights
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="/Admin/Users">
+                <a href="/Admin/Users" class="active">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
@@ -96,43 +96,7 @@
         <!-- Main Content -->
         <main>
         
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Current Date</h3>
-                            <h1 id="date"></h1>
-                            <h1 id="time"></h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info ">
-                            <h3>Total Users</h3>
-                            <h1>{{id_count_value}}</h1>
-                        </div>
-                        <div class="progresss mt-3">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Pending Request</h3>
-                            <h1>{{Pending}}</h1>
-                        </div>
-                        <div class="progresss">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Analyses -->
-
+            <h1>Users</h1>
             <!-- New Users Section -->
             <div class="new-users">
                 <h2>New Users</h2>
@@ -160,51 +124,6 @@
                 </div>
             </div>
             <!-- End of New Users Section -->
-
-            <!-- Recent Orders Table -->
-            <div class="recent-orders">
-                <h2>Recent Point Requests</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Points</th>
-                            <th>Request</th>
-                            <th>Status</th>
-                            <th>Response</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for request in Requests %}
-                        <tr>
-                            <td>{{ request.Username }}</td>
-                            <td>{{ request.Points }}</td>
-                            <td>{{ request.status }}</td>
-                            <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
-                                {{ request.Request }}
-                            </td>
-                            
-                            <td></td>
-                            <td class="primary">
-                                <a href="#">Details</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
-                <a href="/Admin/Request">Show All</a>
-            </div>
-            <!-- End of Recent Orders -->
 
         </main>
         <!-- End of Main Content -->
