@@ -176,7 +176,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests %}
+                        {% for request in Requests[:5] %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
@@ -314,5 +314,7 @@
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
+    <script src="/static/popup.js " async defer></script>
+
 </body>
 </html>

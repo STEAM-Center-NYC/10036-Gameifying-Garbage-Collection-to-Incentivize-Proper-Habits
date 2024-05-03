@@ -288,7 +288,7 @@ def AdminDashboard():
     cursor.close()
 
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
@@ -314,6 +314,8 @@ def AdminRequest():
             r.Points as Status
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
+        WHERE r.ImageVerified = 0
+
         """
 
     )
@@ -322,7 +324,7 @@ def AdminRequest():
 
    
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
@@ -332,7 +334,7 @@ def AdminRequest():
 def AdminUser():
 
     cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
@@ -353,40 +355,3 @@ def photo(request_id):
 
     return render_template("photo.html.jinja", image_data=image_data)
 
-@app.route("/Admin/Request")
-def AdminRequest():
-    cursor = get_db().cursor()
-    cursor.execute(
-        """
-        SELECT 
-            u.username as Username, 
-            r.Image as Image, 
-            CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
-                 WHEN r.ImageVerified = 0 THEN 'Pending' 
-                 ELSE 'Declined' END as Request,
-            r.Points as Status
-        FROM Rewards r
-        JOIN Users u ON r.User_ID = u.ID
-        """
-
-    )
-    Requests = cursor.fetchall()
-    cursor.close()
-
-   
-    cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
-    TicketCount = cursor.fetchone()['COUNT(*)']
-    cursor.close()
-
-    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount)
-
-@app.route("/Admin/Users")
-def AdminUser():
-
-    cursor = get_db().cursor()
-    cursor.execute("SELECT COUNT(*) FROM Rewards")
-    TicketCount = cursor.fetchone()['COUNT(*)']
-    cursor.close()
-
-    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount)
