@@ -168,10 +168,10 @@
                     <thead>
                         <tr>
                             <th>Username</th>
-                            <th>Points</th>
+                            <th>User Points</th>
                             <th>Request</th>
                             <th>Status</th>
-                            <th>Response</th>
+                            <th colspan="2">Response</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -182,24 +182,27 @@
                             <td>{{ request.Points }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
+                {% if request.Request == 'Declined' %}
+                    text-danger
+                {% elif request.Request == 'Pending' %}
+                    text-warning
+                {% else %}
+                    text-success
+                {% endif %}
+                ">
                                 {{ request.Request }}
                             </td>
-                            
-                            <td></td>
+                            <td class="text-center">
+                                <a href="accept" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-sm btn-danger"> <i class="fas fa-times"></i></a>
+                            </td>
                             <td class="primary">
                                 <a href="#">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
-
                     </tbody>
                 </table>
                 <a href="/Admin/Request">Show All</a>
