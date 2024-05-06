@@ -1,0 +1,28 @@
+#container {
+    margin: auto;
+    padding-top: 230px;
+    width: 500px;
+    text-align: center;
+}
+
+#btn {
+    background-color: rgb(59, 59, 180);
+    border: 2px solid white;
+    padding: 10px;
+    color: white;
+}
+
+.modal-content {
+    color: black;
+    background-color: white;
+    padding: 10px;
+}
+
+.modal {
+    position: fixed;
+    padding-top: 60px;
+    width: 500px;
+    display: none;
+    margin: auto;
+    overflow: auto;
+}
