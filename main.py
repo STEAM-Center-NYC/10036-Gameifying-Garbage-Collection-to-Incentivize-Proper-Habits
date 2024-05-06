@@ -154,7 +154,6 @@ def home():
 
             cursor = get_db().cursor()
             user_id = flask_login.current_user.id
-            now = datetime.now()
 
             sql = """
                 INSERT INTO Rewards (User_ID, ImageName, Image, ImageVerified, Points) 
@@ -253,10 +252,24 @@ def profile():
 def contact():
     return render_template("contact.html.jinja")
 
-def is_morning():
+def get_time_of_day():
     now = datetime.now()
-    return now.hour < 12
+    hour = now.hour
+    if hour < 12:
+        return "morning"
+    elif hour < 17:
+        return "afternoon"
+    else:
+        return "evening"
 
+def get_greeting():
+    time_of_day = get_time_of_day()
+    if time_of_day == "morning":
+        return "Good Morning,"
+    elif time_of_day == "afternoon":
+        return "Good afternoon,"
+    else:
+        return "Good evening,"
 
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def AdminDashboard():
@@ -264,11 +277,6 @@ def AdminDashboard():
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
     id_count_value = id_count_row["id_count"]
-
-    if is_morning():
-        greeting = "Good morning,"
-    else:
-        greeting = "Hello,"
 
     cursor.execute(
         """
@@ -292,6 +300,7 @@ def AdminDashboard():
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
+    greeting = get_greeting()
     return render_template(
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
@@ -327,11 +336,7 @@ def AdminRequest():
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
-    if is_morning():
-        greeting = "Good morning,"
-    else:
-        greeting = "Hello,"
-
+    greeting = get_greeting()
     return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount, greeting=greeting)
 
 @app.route("/Admin/Users")
@@ -342,11 +347,7 @@ def AdminUser():
     TicketCount = cursor.fetchone()['COUNT(*)']
     cursor.close()
 
-    if is_morning():
-        greeting = "Good morning,"
-    else:
-        greeting = "Hello,"
-
+    greeting = get_greeting()
     return render_template("AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting)
 
 
