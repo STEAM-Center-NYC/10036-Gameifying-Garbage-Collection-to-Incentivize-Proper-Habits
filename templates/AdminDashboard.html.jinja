@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="/static/Adminstyle.css">
+    <link rel="stylesheet" href="/static/response.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>BinBuddy- Admin Dashboard</title>
 </head>
 <style>
@@ -171,34 +173,29 @@
                             <th>User Points</th>
                             <th>Request</th>
                             <th>Status</th>
-                            <th colspan="2">Response</th>
-                            <th></th>
+                            <th>Response</th>
+                            <th>More</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests[:5] %}
+                        {% for request in Requests %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
-                            <td>{{ request.Requests }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                {% if request.Request == 'Declined' %}
-                    text-danger
-                {% elif request.Request == 'Pending' %}
-                    text-warning
-                {% else %}
-                    text-success
-                {% endif %}
-                ">
+                          {% if request.Request == 'Declined' %}
+                            text-danger
+                          {% elif request.Request == 'Pending' %}
+                            text-warning
+                          {% else %}
+                            text-success
+                          {% endif %}
+                        ">
                                 {{ request.Request }}
                             </td>
-                            <td class="text-center">
-                                <a href="accept" class="btn btn-sm btn-success"><i class="fas fa-check"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-sm btn-danger"> <i class="fas fa-times"></i></a>
-                            </td>
+                            
+                            <td><button class="checkmark-btn"><i class="fas fa-check"></i></button> <button class="x-btn"><i class="fas fa-times"></i></button></td>
                             <td class="primary">
                                 <a href="{{ url_for('photo', request_id=request['Reward_ID']) }}">Details</a>
                             </td>
