@@ -131,7 +131,11 @@
                                 {{ request.Request }}
                             </td>
                             
+                            {% if request.Request == 'Pending'%}
                             <td><button class="checkmark-btn"><i class="fas fa-check"></i></button> <button class="x-btn"><i class="fas fa-times"></i></button></td>
+                            {% else %}
+                            <td> Already Submitted</td>
+                            {% endif%}
                             <td class="primary">
                                 <a href="{{ url_for('photo', request_id=request['Reward_ID']) }}">Details</a>
                             </td>
