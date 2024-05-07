@@ -11,6 +11,7 @@ import flask_login
 import pymysql
 import pymysql.cursors
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
@@ -185,8 +186,10 @@ def signup():
             email = request.form["email"]
             password = request.form["password"]
             cursor = get_db().cursor()
+            hashed_value = generate_password_hash(password)
+            stored_password = hashed_value
             sql = "INSERT INTO Users (Username, Email, Password) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (username, email, password))
+            cursor.execute(sql, (username, email, stored_password))
             get_db().commit()
             return redirect(url_for("signin"))
         except IntegrityError:
@@ -194,6 +197,7 @@ def signup():
             return render_template("signup.html.jinja", error=error)
         finally:
             cursor.close()
+
     return render_template("signup.html.jinja")
 
 
@@ -210,7 +214,7 @@ def signin():
         user = cursor.fetchone()
         cursor.close()
         get_db().commit()
-        if user and user["Password"] == password:
+        if user and check_password_hash(user['Password'], password):
             user_obj = User(user["ID"], user["Username"])
             flask_login.login_user(user_obj)
             return redirect(url_for("home"))

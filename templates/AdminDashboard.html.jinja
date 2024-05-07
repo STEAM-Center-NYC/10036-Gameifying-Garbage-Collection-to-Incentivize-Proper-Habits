@@ -179,7 +179,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests %}
+                        {% for request in Requests[:5] %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
@@ -195,7 +195,6 @@
                         ">
                                 {{ request.Request }}
                             </td>
-                            
                             {% if request.Request == 'Pending'%}
                             <td><button class="checkmark-btn"><i class="fas fa-check"></i></button> <button class="x-btn"><i class="fas fa-times"></i></button></td>
                             {% else %}
