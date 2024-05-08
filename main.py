@@ -109,30 +109,34 @@ def map_page():
 @app.route("/home", methods=["GET", "POST"])
 def home():
     admin_access = False
-    cursor = get_db().cursor()
-    cursor.execute("SELECT Points FROM Users")
-    points_dict = cursor.fetchone()
-    points = points_dict["Points"] if points_dict else 0
-
-    cursor.execute("SELECT * FROM Bins")
-    all_bins_data = cursor.fetchall()
-
-    bins_data = []
-    while len(bins_data) < 5:
-        random.shuffle(all_bins_data)
-        bins_data = [
-            bin_data
-            for bin_data in all_bins_data
-            if bin_data.get("SiteLocation")
-            and bin_data["SiteLocation"].lower() != "nan"
-        ]
-
-    bins_data = bins_data[:5]
-
-    filesent = ""  # Initialize filesent variable
 
     if flask_login.current_user.is_authenticated:
         cursor = get_db().cursor()
+
+        # Get points for the current user
+        cursor.execute(
+            "SELECT Points FROM Users WHERE ID = %s", (flask_login.current_user.id,)
+        )
+        points_dict = cursor.fetchone()
+        points = points_dict["Points"] if points_dict else 0
+
+        # Get bin data
+        cursor.execute("SELECT * FROM Bins")
+        all_bins_data = cursor.fetchall()
+
+        bins_data = []
+        while len(bins_data) < 5:
+            random.shuffle(all_bins_data)
+            bins_data = [
+                bin_data
+                for bin_data in all_bins_data
+                if bin_data.get("SiteLocation")
+                and bin_data["SiteLocation"].lower() != "nan"
+            ]
+
+        bins_data = bins_data[:5]
+
+        # Check for admin access
         cursor.execute(
             "SELECT * FROM Users WHERE ID = %s AND Admin = 1",
             (flask_login.current_user.id,),
@@ -141,31 +145,38 @@ def home():
         if admin_user:
             admin_access = True
 
-    cursor.execute("SELECT * FROM `Bins`")
-    result = cursor.fetchall()
-    cursor.close()
+        # Close the earlier cursor
+        cursor.close()
 
-    form = UploadFileForm()
-    if form.validate_on_submit():
-        file = form.file.data
-        if file:
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            file.save(filepath)
+        # Fetch locations for dropdowns (if needed)
+        cursor = get_db().cursor()
+        cursor.execute("SELECT * FROM `Bins`")
+        result = cursor.fetchall()
+        cursor.close()
 
-            cursor = get_db().cursor()
-            user_id = flask_login.current_user.id
+        # Handle file uploads
+        form = UploadFileForm()
+        filesent = ""
+        if form.validate_on_submit():
+            file = form.file.data
+            if file:
+                filename = secure_filename(file.filename)
+                filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+                file.save(filepath)
 
-            sql = """
-                INSERT INTO Rewards (User_ID, ImageName, Image, ImageVerified, Points) 
-                VALUES (%s, %s, %s, 0, 0) 
-            """
-            cursor.execute(sql, (user_id, filename, filepath))
-            get_db().commit()
-            cursor.close()
-            filesent = "File Successfully Uploaded"
-        else:
-            filesent = "Please select an image file to upload."
+                cursor = get_db().cursor()
+                user_id = flask_login.current_user.id
+
+                sql = """
+                    INSERT INTO Rewards (User_ID, ImageName, Image, ImageVerified, Points) 
+                    VALUES (%s, %s, %s, 0, 0) 
+                """
+                cursor.execute(sql, (user_id, filename, filepath))
+                get_db().commit()
+                cursor.close()
+                filesent = "File Successfully Uploaded"
+            else:
+                filesent = "Please select an image file to upload."
 
     return render_template(
         "homepage.html.jinja",
@@ -252,9 +263,11 @@ def profile():
     cursor.close()
     return render_template("profile.html.jinja", about=user_data["About"])
 
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     return render_template("contact.html.jinja")
+
 
 def get_time_of_day():
     now = datetime.now()
@@ -266,6 +279,7 @@ def get_time_of_day():
     else:
         return "evening"
 
+
 def get_greeting():
     time_of_day = get_time_of_day()
     if time_of_day == "morning":
@@ -274,6 +288,7 @@ def get_greeting():
         return "Good afternoon,"
     else:
         return "Good evening,"
+
 
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def AdminDashboard():
@@ -301,7 +316,7 @@ def AdminDashboard():
 
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
-    TicketCount = cursor.fetchone()['COUNT(*)']
+    TicketCount = cursor.fetchone()["COUNT(*)"]
     cursor.close()
 
     greeting = get_greeting()
@@ -311,8 +326,11 @@ def AdminDashboard():
         greeting=greeting,
         Requests=Requests, 
         TicketCount=TicketCount,
+        Requests=Requests,
+        TicketCount=TicketCount,
 
     )
+
 
 @app.route("/Admin/Request")
 def AdminRequest():
@@ -335,25 +353,33 @@ def AdminRequest():
     )
     Requests = cursor.fetchall()
     cursor.close()
-   
+
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
-    TicketCount = cursor.fetchone()['COUNT(*)']
+    TicketCount = cursor.fetchone()["COUNT(*)"]
     cursor.close()
 
     greeting = get_greeting()
-    return render_template("AdminRequests.html.jinja", Requests=Requests, TicketCount=TicketCount, greeting=greeting)
+    return render_template(
+        "AdminRequests.html.jinja",
+        Requests=Requests,
+        TicketCount=TicketCount,
+        greeting=greeting,
+    )
+
 
 @app.route("/Admin/Users")
 def AdminUser():
 
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
-    TicketCount = cursor.fetchone()['COUNT(*)']
+    TicketCount = cursor.fetchone()["COUNT(*)"]
     cursor.close()
 
     greeting = get_greeting()
-    return render_template("AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting)
+    return render_template(
+        "AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting
+    )
 
 
 @app.route("/photo/<int:request_id>")
@@ -369,3 +395,25 @@ def photo(request_id):
         return "Error: Image not found"
 
     return render_template("photo.html.jinja", image_data=image_data)
+
+
+@app.route("/approve-request/<int:request_id>", methods=["POST", "GET"])
+def approve_request(request_id):
+    cursor = get_db().cursor()
+    cursor.execute(
+        "UPDATE Rewards SET ImageVerified = 1 WHERE Reward_ID = %s", request_id
+    )
+    get_db().commit()
+    cursor.close()
+    return redirect("AdminDashboard.html.jinja")
+
+
+@app.route("/decline-request/<int:request_id>", methods=["POST", "GET"])
+def decline_request(request_id):
+    cursor = get_db().cursor()
+    cursor.execute(
+         "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id
+    )  # Use a different value (e.g., 2) to indicate 'Declined'
+    get_db().commit()
+    cursor.close()
+    return redirect("AdminDashboard.html.jinja")
