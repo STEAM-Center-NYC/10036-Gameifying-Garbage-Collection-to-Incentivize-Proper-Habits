@@ -324,8 +324,11 @@ def AdminDashboard():
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
+        Requests=Requests, 
+        TicketCount=TicketCount,
         Requests=Requests,
         TicketCount=TicketCount,
+
     )
 
 

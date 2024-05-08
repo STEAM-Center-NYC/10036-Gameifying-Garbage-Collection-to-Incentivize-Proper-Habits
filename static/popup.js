@@ -1,17 +1,20 @@
-const modal = document.getElementById('myModal'),
-    btn = document.getElementById('btn'),
-    close = document.getElementById('non');
+// Get the modal
+var modal = document.getElementById("myModal");
 
-btn.addEventListener('click', openModal);
-close.addEventListener('click', closeModal);
-modal.addEventListener('click', closeModal);
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("myImg");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
 
-// Code to open Modal
-function openModal(e) {
-    e.preventDefault();
-    modal.style.display = "block";
-};
-// code to close Modal
-function closeModal() {
-    modal.style.display = "none";
-};
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
