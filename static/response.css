@@ -34,7 +34,7 @@
     position: relative;
 }
 
-/* Styles for the X icon */
+/* Styles for the X icon */ 
 .x-btn i {
     color: white; /* Set icon color */
     position: absolute;
@@ -47,3 +47,9 @@
 .x-btn i.fa-times {
     font-size: 18px;
 }
+
+.primary { 
+    display: flex; /* Activate flexbox layout */
+    align-items: center; /* Vertically center the buttons */
+    justify-content: space-around; /* Distribute space between the buttons */
+  }
