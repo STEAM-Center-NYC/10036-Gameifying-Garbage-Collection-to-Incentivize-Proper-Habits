@@ -326,9 +326,6 @@ def AdminDashboard():
         greeting=greeting,
         Requests=Requests, 
         TicketCount=TicketCount,
-        Requests=Requests,
-        TicketCount=TicketCount,
-
     )
 
 
