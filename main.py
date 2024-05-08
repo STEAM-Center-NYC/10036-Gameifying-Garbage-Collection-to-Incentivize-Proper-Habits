@@ -310,7 +310,8 @@ def AdminDashboard():
         id_count_value=id_count_value,
         greeting=greeting,
         Requests=Requests, 
-        TicketCount=TicketCount
+        TicketCount=TicketCount,
+
     )
 
 @app.route("/Admin/Request")

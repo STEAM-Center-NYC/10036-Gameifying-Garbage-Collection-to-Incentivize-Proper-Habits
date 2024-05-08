@@ -201,7 +201,7 @@
                             <td> Already Submitted</td>
                             {% endif%}
                             <td class="primary">
-                                <a href="{{ url_for('photo', request_id=request['Reward_ID']) }}">Details</a>
+                                <a href="#" onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=400,height=400')">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
