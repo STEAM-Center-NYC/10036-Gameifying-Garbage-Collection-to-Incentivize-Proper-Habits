@@ -179,7 +179,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests %}
+                        {% for request in Requests[:5] %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
