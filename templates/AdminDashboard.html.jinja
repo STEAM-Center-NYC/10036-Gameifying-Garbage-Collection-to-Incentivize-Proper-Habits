@@ -98,7 +98,7 @@
 
         <!-- Main Content -->
         <main>
-        
+
             <h1>Dashboard</h1>
             <!-- Analyses -->
             <div class="analyse">
@@ -195,12 +195,22 @@
                         ">
                                 {{ request.Request }}
                             </td>
-                            
                             {% if request.Request == 'Pending'%}
-                            <td><button class="checkmark-btn"><i class="fas fa-check"></i></button> <button class="x-btn"><i class="fas fa-times"></i></button></td>
+                            <td>
+                                <div class="primary">
+                                    <form method="POST" action="/approve-request/{{ request.Reward_ID }}">
+                                        <button class="checkmark-btn" type="submit"><i
+                                                class="fas fa-check"></i></button>
+                                    </form>
+                                    <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
+                                        <button class="x-btn" type="submit"><i class="fas fa-times"></i></button>
+                                    </form>
+                                </div>
+                            </td>
                             {% else %}
                             <td> Already Submitted</td>
                             {% endif%}
+
                             <td class="primary">
                                 <a href="{{ url_for('photo', request_id=request['Reward_ID']) }}">Details</a>
                             </td>
@@ -320,4 +330,5 @@
     <script src="/static/popup.js " async defer></script>
 
 </body>
+
 </html>
