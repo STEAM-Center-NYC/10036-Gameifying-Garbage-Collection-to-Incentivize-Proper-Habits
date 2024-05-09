@@ -2,16 +2,21 @@
 .checkmark-btn {
     width: 30px;
     height: 30px;
-    border-radius: 50%; /* Makes the button circular */
-    background-color: #4CAF50; /* Green color */
-    border: none; /* Remove border */
-    cursor: pointer; /* Show pointer cursor on hover */
+    border-radius: 50%;
+    /* Makes the button circular */
+    background-color: #4CAF50;
+    /* Green color */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    /* Show pointer cursor on hover */
     position: relative;
 }
 
 /* Styles for the checkmark icon */
 .checkmark-btn i {
-    color: white; /* Set icon color */
+    color: white;
+    /* Set icon color */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -27,16 +32,21 @@
 .x-btn {
     width: 30px;
     height: 30px;
-    border-radius: 50%; /* Makes the button circular */
-    background-color: red; /* Red color */
-    border: none; /* Remove border */
-    cursor: pointer; /* Show pointer cursor on hover */
+    border-radius: 50%;
+    /* Makes the button circular */
+    background-color: red;
+    /* Red color */
+    border: none;
+    /* Remove border */
+    cursor: pointer;
+    /* Show pointer cursor on hover */
     position: relative;
 }
 
-/* Styles for the X icon */ 
+/* Styles for the X icon */
 .x-btn i {
-    color: white; /* Set icon color */
+    color: white;
+    /* Set icon color */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -48,8 +58,11 @@
     font-size: 18px;
 }
 
-.primary { 
-    display: flex; /* Activate flexbox layout */
-    align-items: center; /* Vertically center the buttons */
-    justify-content: space-between; /* Distribute space between the buttons */
-  }
+.primary {
+    display: flex;
+    /* Activate flexbox layout */
+    align-items: center;
+    /* Vertically center the buttons */
+    justify-content: center;
+    /* Distribute space between the buttons */
+}

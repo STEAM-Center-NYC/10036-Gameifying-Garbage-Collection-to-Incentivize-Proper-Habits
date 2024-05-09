@@ -7,15 +7,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="/static/popup.css">
     <link rel="stylesheet" href="/static/Adminstyle.css">
-    <link rel="stylesheet" href="/static/response.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/static/response.css">
     <title>BinBuddy- Admin Dashboard</title>
 </head>
 <style>
     #clock {
         max-width: 12px;
     }
-    .primary .img{
+
+    .primary .img {
         width: 100vh;
     }
 </style>
@@ -199,14 +200,14 @@
                                 {{ request.Request }}
                             </td>
                             {% if request.Request == 'Pending'%}
-                            <td>
-                                <div class="primary">
+                            <td class="responsecolumn">
+                                <div class="primary" class="responsecolumn">
                                     <form method="POST" action="/approve-request/{{ request.Reward_ID }}">
                                         <button class="checkmark-btn" type="submit"><i
                                                 class="fas fa-check"></i></button>
                                     </form>
                                     <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
-                                        <button class="x-btn" type="submit"><i class="fas fa-times"></i></button>
+                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i class="fas fa-times"></i></button>
                                     </form>
                                 </div>
                             </td>
@@ -215,7 +216,8 @@
                             {% endif%}
 
                             <td class="primary">
-                                <a href="#" onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=600,height=600')">Details</a> 
+                                <a href="#"
+                                    onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=600,height=600')">Details</a>
                             </td>
                         </tr>
                         {% endfor %}
