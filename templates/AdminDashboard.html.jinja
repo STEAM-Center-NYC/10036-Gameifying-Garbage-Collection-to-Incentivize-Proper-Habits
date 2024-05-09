@@ -15,6 +15,9 @@
     #clock {
         max-width: 12px;
     }
+    .primary .img{
+        width: 100vh;
+    }
 </style>
 
 <body>
@@ -212,7 +215,7 @@
                             {% endif%}
 
                             <td class="primary">
-                                <a href="#" onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=400,height=400')">Details</a>
+                                <a href="#" onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=600,height=600')">Details</a> 
                             </td>
                         </tr>
                         {% endfor %}
@@ -328,7 +331,8 @@
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
     <script src="/static/popup.js " async defer></script>
-
+    <script>
+    </script>
 </body>
 
 </html>

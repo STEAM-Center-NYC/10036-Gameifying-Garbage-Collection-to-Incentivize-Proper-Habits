@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, g, url_for
+from flask import Flask, render_template, request, redirect, g, url_for, abort
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
 from wtforms import FileField, SubmitField
@@ -12,6 +12,7 @@ import pymysql
 import pymysql.cursors
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -27,10 +28,12 @@ class User:
     is_authenticated = True
     is_anonymous = False
     is_active = True
+    is_admin = False
 
-    def __init__(self, id, username):
+    def __init__(self, id, username, admin):
         self.username = username
         self.id = id
+        self.is_admin= admin
 
     def get_id(self):
         return str(self.id)
@@ -68,7 +71,7 @@ def load_user(user_id):
     cursor.close()
     if result is None:
         return None
-    return User(result["ID"], result["Username"])
+    return User(result["ID"], result["Username"],result["Admin"])
 
 
 class UploadFileForm(FlaskForm):
@@ -76,7 +79,8 @@ class UploadFileForm(FlaskForm):
         "Select Image",
         validators=[
             FileRequired(),
-            FileAllowed(app.config["ALLOWED_EXTENSIONS"], "Images and PDFs only!"),
+            FileAllowed(app.config["ALLOWED_EXTENSIONS"],
+                        "Images and PDFs only!"),
         ],
     )
     submit = SubmitField("Upload File")
@@ -115,7 +119,8 @@ def home():
 
         # Get points for the current user
         cursor.execute(
-            "SELECT Points FROM Users WHERE ID = %s", (flask_login.current_user.id,)
+            "SELECT Points FROM Users WHERE ID = %s", (
+                flask_login.current_user.id,)
         )
         points_dict = cursor.fetchone()
         points = points_dict["Points"] if points_dict else 0
@@ -226,7 +231,7 @@ def signin():
         cursor.close()
         get_db().commit()
         if user and check_password_hash(user['Password'], password):
-            user_obj = User(user["ID"], user["Username"])
+            user_obj = User(user["ID"], user["Username"], user["Admin"])
             flask_login.login_user(user_obj)
             return redirect(url_for("home"))
         else:
@@ -289,9 +294,12 @@ def get_greeting():
     else:
         return "Good evening,"
 
-
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def AdminDashboard():
+    if flask_login.current_user.is_admin:
+        pass
+    else:
+        return abort(404)
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
@@ -309,6 +317,7 @@ def AdminDashboard():
             r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
+        ORDER BY r.TimeStamp DESC
         """
     )
     Requests = cursor.fetchall()
@@ -324,16 +333,17 @@ def AdminDashboard():
         "AdminDashboard.html.jinja",
         id_count_value=id_count_value,
         greeting=greeting,
-        Requests=Requests, 
-        TicketCount=TicketCount,
         Requests=Requests,
         TicketCount=TicketCount,
-
     )
 
 
 @app.route("/Admin/Request")
 def AdminRequest():
+    if flask_login.current_user.is_admin:
+        pass
+    else:
+        return abort(404)
     cursor = get_db().cursor()
     cursor.execute(
         """
@@ -348,8 +358,9 @@ def AdminRequest():
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
         WHERE r.ImageVerified = 0
-
+        ORDER BY r.TimeStamp DESC
         """
+
     )
     Requests = cursor.fetchall()
     cursor.close()
@@ -370,7 +381,10 @@ def AdminRequest():
 
 @app.route("/Admin/Users")
 def AdminUser():
-
+    if flask_login.current_user.is_admin:
+        pass
+    else:
+        return abort(404)
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()["COUNT(*)"]
@@ -386,7 +400,8 @@ def AdminUser():
 def photo(request_id):
     cursor = get_db().cursor()
     cursor.execute(
-        "SELECT ImageName, Image FROM Rewards WHERE Reward_ID = %s", (request_id,)
+        "SELECT ImageName, Image FROM Rewards WHERE Reward_ID = %s", (
+            request_id,)
     )
     image_data = cursor.fetchone()
     cursor.close()
@@ -412,7 +427,7 @@ def approve_request(request_id):
 def decline_request(request_id):
     cursor = get_db().cursor()
     cursor.execute(
-         "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id
+        "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id
     )  # Use a different value (e.g., 2) to indicate 'Declined'
     get_db().commit()
     cursor.close()
