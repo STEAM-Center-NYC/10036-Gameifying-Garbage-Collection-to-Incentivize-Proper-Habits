@@ -51,5 +51,5 @@
 .primary { 
     display: flex; /* Activate flexbox layout */
     align-items: center; /* Vertically center the buttons */
-    justify-content: space-around; /* Distribute space between the buttons */
+    justify-content: space-between; /* Distribute space between the buttons */
   }
