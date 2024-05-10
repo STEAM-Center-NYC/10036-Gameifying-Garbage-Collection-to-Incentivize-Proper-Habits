@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, g, url_for, abort
+from flask import Flask, render_template, request, redirect, g, url_for, abort, session
 from pymysql.err import IntegrityError
 from dynaconf import Dynaconf
 from wtforms import FileField, SubmitField
@@ -7,6 +7,7 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from werkzeug.utils import secure_filename
 import random
 import os
+
 import flask_login
 import pymysql
 import pymysql.cursors
@@ -31,7 +32,7 @@ class User:
     def __init__(self, id, username, admin):
         self.username = username
         self.id = id
-        self.is_admin= admin
+        self.is_admin = admin
 
     def get_id(self):
         return str(self.id)
@@ -69,7 +70,7 @@ def load_user(user_id):
     cursor.close()
     if result is None:
         return None
-    return User(result["ID"], result["Username"],result["Admin"])
+    return User(result["ID"], result["Username"], result["Admin"])
 
 
 class UploadFileForm(FlaskForm):
@@ -77,8 +78,7 @@ class UploadFileForm(FlaskForm):
         "Select Image",
         validators=[
             FileRequired(),
-            FileAllowed(app.config["ALLOWED_EXTENSIONS"],
-                        "Images and PDFs only!"),
+            FileAllowed(app.config["ALLOWED_EXTENSIONS"], "Images and PDFs only!"),
         ],
     )
     submit = SubmitField("Upload File")
@@ -120,8 +120,7 @@ def home():
 
         # Get points for the current user
         cursor.execute(
-            "SELECT Points FROM Users WHERE ID = %s", (
-                flask_login.current_user.id,)
+            "SELECT Points FROM Users WHERE ID = %s", (flask_login.current_user.id,)
         )
         points_dict = cursor.fetchone()
         points = points_dict["Points"] if points_dict else 0
@@ -234,7 +233,7 @@ def signin():
         user = cursor.fetchone()
         cursor.close()
         get_db().commit()
-        if user and check_password_hash(user['Password'], password):
+        if user and check_password_hash(user["Password"], password):
             user_obj = User(user["ID"], user["Username"], user["Admin"])
             flask_login.login_user(user_obj)
             return redirect(url_for("home"))
@@ -298,6 +297,7 @@ def get_greeting():
     else:
         return "Good evening,"
 
+
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def AdminDashboard():
     if flask_login.current_user.is_admin:
@@ -333,14 +333,17 @@ def AdminDashboard():
     cursor.close()
 
     greeting = get_greeting()
-    return render_template(
-        "AdminDashboard.html.jinja",
-        id_count_value=id_count_value,
-        greeting=greeting,
-
-        Requests=Requests,
-        TicketCount=TicketCount,
-    )
+    referrer = session.pop("referrer", None)
+    if referrer:
+        return redirect(referrer)  # If referrer exists, redirect
+    else:
+        return render_template(  # Otherwise, render normally
+            "AdminDashboard.html.jinja",
+            id_count_value=id_count_value,
+            greeting=greeting,
+            Requests=Requests,
+            TicketCount=TicketCount,
+        )
 
 
 @app.route("/Admin/Request")
@@ -365,7 +368,6 @@ def AdminRequest():
         WHERE r.ImageVerified = 0
         ORDER BY r.TimeStamp DESC
         """
-
     )
     Requests = cursor.fetchall()
     cursor.close()
@@ -376,11 +378,15 @@ def AdminRequest():
     cursor.close()
 
     greeting = get_greeting()
-    return render_template(
-        "AdminRequests.html.jinja",
-        Requests=Requests,
-        TicketCount=TicketCount,
-        greeting=greeting,
+    referrer = session.pop('referrer', None)
+    if referrer:
+        return redirect(referrer)
+    else:
+        return render_template(
+            "AdminRequests.html.jinja",
+            Requests=Requests,
+            TicketCount=TicketCount,
+            greeting=greeting,
     )
 
 
@@ -405,8 +411,7 @@ def AdminUser():
 def photo(request_id):
     cursor = get_db().cursor()
     cursor.execute(
-        "SELECT ImageName, Image FROM Rewards WHERE Reward_ID = %s", (
-            request_id,)
+        "SELECT ImageName, Image FROM Rewards WHERE Reward_ID = %s", (request_id,)
     )
     image_data = cursor.fetchone()
     cursor.close()
@@ -425,7 +430,8 @@ def approve_request(request_id):
     )
     get_db().commit()
     cursor.close()
-    return redirect("AdminDashboard.html.jinja")
+    session["referrer"] = request.referrer  # Store the referrer
+    return redirect(session.pop("referrer"))  # Fallback included
 
 
 @app.route("/decline-request/<int:request_id>", methods=["POST", "GET"])
@@ -435,7 +441,8 @@ def decline_request(request_id):
         "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id) 
     get_db().commit()
     cursor.close()
-    return redirect("AdminDashboard.html.jinja")
+    session["referrer"] = request.referrer  # Store the referrer
+    return redirect(session.pop("referrer"))  # Fallback included
 
 @app.route("/Admin/History", methods=["POST", "GET"])
 def AdminHistory():
@@ -499,3 +506,4 @@ def AdminHistory():
         TicketCount=TicketCount,
         Name_Result=Name_Result
     )
+

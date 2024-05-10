@@ -131,7 +131,18 @@
                                 {{ request.Request }}
                             </td>
                             {% if request.Request == 'Pending'%}
-                            <td><button class="checkmark-btn"><i class="fas fa-check"></i></button> <button class="x-btn"><i class="fas fa-times"></i></button></td>
+                            <td class="responsecolumn">
+                                <div class="primary" class="responsecolumn">
+                                    <form method="POST" action="/approve-request/{{ request.Reward_ID }}">
+                                        <button class="checkmark-btn" type="submit"><i
+                                                class="fas fa-check"></i></button>
+                                    </form>
+                                    <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
+                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i
+                                                class="fas fa-times"></i></button>
+                                    </form>
+                                </div>
+                            </td>
                             {% else %}
                             <td> Already Submitted</td>
                             {% endif%}
@@ -252,4 +263,5 @@
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
 </body>
+
 </html>
