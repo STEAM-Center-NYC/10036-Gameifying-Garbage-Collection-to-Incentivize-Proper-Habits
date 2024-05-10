@@ -5,44 +5,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="/static/popup.css">
     <link rel="stylesheet" href="/static/Adminstyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/static/response.css">
-    <title>BinBuddy- Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>BinBuddy- Admin History</title>
 </head>
 <style>
     #clock {
         max-width: 12px;
     }
+.pagination {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+    margin-top: 10px;
 
-    .primary .img {
-        width: 100vh;
+    li {
+        display: inline;
+        text-align: center;
+
+        a {
+            float: left;
+            display: block;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 5px 12px;
+            color: #fff;
+            margin-left: -1px;
+            border: 1px solid transparent;
+            line-height: 1.5;
+
+            &.active {
+                cursor: default;
+            }
+
+            &:active {
+                outline: none;
+            }
+
+            &:hover {
+                background-color: #6C9BCF;
+            }
+        }
+    }
+}
+
+.pagination.modal-3 {
+    a {
+        margin-left: 3px;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 100%;
+
+        &:hover {
+            background-color: #6C9BCF;
+        }
+
+        &.active,
+        &:active {
+            background-color: #6C9BCF;
+        }
+    }
+}
+
+.pagination a {
+    color: #666;
+    padding: 13px 5px 5px;
+    margin: 0 10px;
+    position: relative;
+
+    &.next,
+    &.prev {
+        color: #1E7EE2;
+
+        &:hover {
+            color: #fff;
+            &:after {
+                display: none;
+            }
+        }
     }
 
-    /* The alert message box */
-.alert {
-  padding: 20px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
+    &.active {
+        background: #1E7EE2;
+        color: #fff;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -11px;
+            left: -10px;
+            width: 18px;
+            border: 10px solid transparent;
+            border-bottom: 7px solid #1E7EE2;
+            z-index: -1;
+        }
+
+        &:hover {
+            &:after {
+                display: none;
+            }
+        }
+    }
 }
 
-/* The close button */
-.closebtn {
-  margin-left: 15px;
-  color: white;
+.search-box{
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all .5s ease-in-out;
+  background-color: #22a6b3;
+  padding-right: 40px;
+  color:#fff;
+}
+.input-search::placeholder{
+  color:rgba(255,255,255,.5);
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 100;
+}
+.btn-search{
+  width: 50px;
+  height: 50px;
+  border-style: none;
+  font-size: 20px;
   font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
+  outline: none;
   cursor: pointer;
-  transition: 0.3s;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color:#ffffff ;
+  background-color:transparent;
+  pointer-events: painted;  
 }
-
-/* When moving the mouse over the close button */
-.closebtn:hover {
-  color: black;
+.btn-search:focus ~ .input-search{
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+.input-search:focus{
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
 }
 </style>
 
@@ -63,7 +184,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="/Admin/Dashboard" class="active">
+                <a href="/Admin/Dashboard">
                     <span class="material-icons-sharp">
                         insights
                     </span>
@@ -82,7 +203,7 @@
                     <h3>Tickets</h3>
                     <span class="message-count">{{TicketCount}}</span>
                 </a>
-                <a href="/Admin/History">
+                <a href="/Admin/History" class="active">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -127,75 +248,11 @@
 
         <!-- Main Content -->
         <main>
-
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Current Date</h3>
-                            <h1 id="date"></h1>
-                            <h1 id="time"></h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info ">
-                            <h3>Total Users</h3>
-                            <h1>{{id_count_value}}</h1>
-                        </div>
-                        <div class="progresss mt-3">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Pending Request</h3>
-                            <h1>{{TicketCount}}</h1>
-                        </div>
-                        <div class="progresss">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Analyses -->
-
-            <!-- New Users Section -->
-            <div class="new-users">
-                <h2>New Users</h2>
-                <div class="user-list">
-                    <div class="user">
-                        <img src="/static/images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/plus.png">
-                        <h2>More</h2>
-                        <p>New User</p>
-                    </div>
-                </div>
-            </div>
+            <h1>History</h1>
             <!-- End of New Users Section -->
 
             <!-- Recent Orders Table -->
             <div class="recent-orders">
-                <h2>Recent Point Requests</h2>
                 <table>
                     <thead>
                         <tr>
@@ -208,7 +265,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests[:5] %}
+                        {% for request in Requests %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
@@ -247,10 +304,25 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        </div>
                     </tbody>
                 </table>
-                <a href="/Admin/Request">Show All</a>
+                <form method="POST">
+                    <div class="pagination modal-3">
+                        <ul class="pagination-list">
+                        <li><a href="?" class="prev">&laquo</a></li>
+                            {% for page_num in range(1, page_num + 1) %}
+                            <li class="pagination-item {% if page_num == page %}is-current{% endif %}">
+                                <a href="?page={{page_num}}" class="pagination-link">{{ page_num }}</a>
+                            </li>
+                            {% endfor %}
+                        <li><a href="?page={{page_num}}" class="next">&raquo;</a></li>
+                        </ul>
+                    </div>
+                {# <div class="search-box">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                    <input type="text" class="input-search" placeholder="Type to Search...">
+                </div>
+                </form> #}
             </div>
             <!-- End of Recent Orders -->
 
@@ -353,13 +425,9 @@
             </div>
 
         </div>
-
-
     </div>
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
-    <script src="/static/popup.js " async defer></script>
 </body>
-
 </html>

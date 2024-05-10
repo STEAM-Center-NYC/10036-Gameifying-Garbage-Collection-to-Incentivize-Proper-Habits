@@ -13,8 +13,6 @@ import pymysql
 import pymysql.cursors
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from functools import wraps
-
 
 app = Flask(__name__)
 settings = Dynaconf(settings_file=["settings.toml"])
@@ -115,6 +113,9 @@ def home():
     admin_access = False
 
     if flask_login.current_user.is_authenticated:
+        # if not request.path.endswith("/" + flask_login.current_user.username):
+        #     return redirect(url_for('home', username=flask_login.current_user.username))
+
         cursor = get_db().cursor()
 
         # Get points for the current user
@@ -182,8 +183,9 @@ def home():
             else:
                 filesent = "Please select an image file to upload."
 
-    return render_template(
+        return render_template(
         "homepage.html.jinja",
+        # username=flask_login.current_user.username,
         admin_access=admin_access,
         points=points,
         bins_data=bins_data,
@@ -191,6 +193,8 @@ def home():
         form=form,
         filesent=filesent,
     )
+    else:
+        return render_template("signin.html.jinja")
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -434,9 +438,72 @@ def approve_request(request_id):
 def decline_request(request_id):
     cursor = get_db().cursor()
     cursor.execute(
-        "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id
-    )  # Use a different value (e.g., 2) to indicate 'Declined'
+        "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id) 
     get_db().commit()
     cursor.close()
     session["referrer"] = request.referrer  # Store the referrer
     return redirect(session.pop("referrer"))  # Fallback included
+
+@app.route("/Admin/History", methods=["POST", "GET"])
+def AdminHistory():
+    if flask_login.current_user.is_admin:
+        pass
+    else:
+        return abort(404)
+    
+    page = request.args.get('page', 1)
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
+    id_count_row = cursor.fetchone()
+    id_count_value = id_count_row["id_count"]
+
+    offset = (int(page) - 1) * 10
+
+    cursor.execute(
+        f"""
+        SELECT 
+            u.username as Username, 
+            r.Image as Image, 
+            CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
+                 ELSE 'Declined' END as Request,
+            u.Points as Points,
+            r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
+        FROM Rewards r
+        JOIN Users u ON r.User_ID = u.ID
+        ORDER BY r.TimeStamp DESC
+        LIMIT 15 OFFSET {offset}
+        """
+    )
+    Requests = cursor.fetchall()
+    cursor.close()
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
+    TicketCount = cursor.fetchone()["COUNT(*)"]
+    cursor.close()
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT COUNT(*) FROM Rewards")
+    page = cursor.fetchone()["COUNT(*)"]
+    page_num= (page//10) +1
+    cursor.close()
+
+    if request.method == "POST":
+        Name_Search= request.form["username"]
+        cursor = get_db().cursor()
+        cursor.execute(f"SELECT * FROM Users WHERE Username LIKE {Name_Search};")
+        Name_Result=cursor.fetchall()
+
+    greeting = get_greeting()
+
+    return render_template(
+        "AdminHistory.html.jinja",
+        id_count_value=id_count_value,
+        greeting=greeting,
+        page_num=page_num,
+        Requests=Requests,
+        TicketCount=TicketCount,
+        Name_Result=Name_Result
+    )
+
