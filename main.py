@@ -504,6 +504,6 @@ def AdminHistory():
         page_num=page_num,
         Requests=Requests,
         TicketCount=TicketCount,
-        Name_Result=Name_Result
+        # Name_Result=Name_Result
     )
 
