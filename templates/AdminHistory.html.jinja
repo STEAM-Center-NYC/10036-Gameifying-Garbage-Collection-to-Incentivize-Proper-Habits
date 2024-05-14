@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="/static/Adminstyle.css">
     <link rel="stylesheet" href="/static/response.css">
+    <link rel="stylesheet" href="/static/pagination.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>BinBuddy- Admin History</title>
 </head>
@@ -14,157 +15,6 @@
     #clock {
         max-width: 12px;
     }
-.pagination {
-    list-style: none;
-    display: inline-block;
-    padding: 0;
-    margin-top: 10px;
-
-    li {
-        display: inline;
-        text-align: center;
-
-        a {
-            float: left;
-            display: block;
-            font-size: 14px;
-            text-decoration: none;
-            padding: 5px 12px;
-            color: #fff;
-            margin-left: -1px;
-            border: 1px solid transparent;
-            line-height: 1.5;
-
-            &.active {
-                cursor: default;
-            }
-
-            &:active {
-                outline: none;
-            }
-
-            &:hover {
-                background-color: #6C9BCF;
-            }
-        }
-    }
-}
-
-.pagination.modal-3 {
-    a {
-        margin-left: 3px;
-        padding: 0;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        border-radius: 100%;
-
-        &:hover {
-            background-color: #6C9BCF;
-        }
-
-        &.active,
-        &:active {
-            background-color: #6C9BCF;
-        }
-    }
-}
-
-.pagination a {
-    color: #666;
-    padding: 13px 5px 5px;
-    margin: 0 10px;
-    position: relative;
-
-    &.next,
-    &.prev {
-        color: #1E7EE2;
-
-        &:hover {
-            color: #fff;
-            &:after {
-                display: none;
-            }
-        }
-    }
-
-    &.active {
-        background: #1E7EE2;
-        color: #fff;
-
-        &:before {
-            content: '';
-            position: absolute;
-            top: -11px;
-            left: -10px;
-            width: 18px;
-            border: 10px solid transparent;
-            border-bottom: 7px solid #1E7EE2;
-            z-index: -1;
-        }
-
-        &:hover {
-            &:after {
-                display: none;
-            }
-        }
-    }
-}
-
-.search-box{
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-}
-.input-search{
-  height: 50px;
-  width: 50px;
-  border-style: none;
-  padding: 10px;
-  font-size: 18px;
-  letter-spacing: 2px;
-  outline: none;
-  border-radius: 25px;
-  transition: all .5s ease-in-out;
-  background-color: #22a6b3;
-  padding-right: 40px;
-  color:#fff;
-}
-.input-search::placeholder{
-  color:rgba(255,255,255,.5);
-  font-size: 18px;
-  letter-spacing: 2px;
-  font-weight: 100;
-}
-.btn-search{
-  width: 50px;
-  height: 50px;
-  border-style: none;
-  font-size: 20px;
-  font-weight: bold;
-  outline: none;
-  cursor: pointer;
-  border-radius: 50%;
-  position: absolute;
-  right: 0px;
-  color:#ffffff ;
-  background-color:transparent;
-  pointer-events: painted;  
-}
-.btn-search:focus ~ .input-search{
-  width: 300px;
-  border-radius: 0px;
-  background-color: transparent;
-  border-bottom:1px solid rgba(255,255,255,.5);
-  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-}
-.input-search:focus{
-  width: 300px;
-  border-radius: 0px;
-  background-color: transparent;
-  border-bottom:1px solid rgba(255,255,255,.5);
-  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-}
 </style>
 
 <body>
@@ -271,14 +121,14 @@
                             <td>{{ request.Points }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
+                                              {% if request.Request == 'Declined' %}
+                                                text-danger
+                                              {% elif request.Request == 'Pending' %}
+                                                text-warning
+                                              {% else %}
+                                                text-success
+                                              {% endif %}
+                                            ">
                                 {{ request.Request }}
                             </td>
                             {% if request.Request == 'Pending'%}
@@ -289,9 +139,10 @@
                                                 class="fas fa-check"></i></button>
                                     </form>
                                     <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
-                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i class="fas fa-times"></i></button>
+                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i
+                                                class="fas fa-times"></i></button>
                                     </form>
-                                    
+
                                 </div>
                             </td>
                             {% else %}
@@ -305,24 +156,34 @@
                         </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6"> <!-- Spanning all columns -->
+                                <div class="pagination-search-container">
+                                    <div class="pagination modal-3">
+                                        <form name="username" method="post">
+                                            <ul class="pagination-list">
+                                                <li><a href="?" class="prev">&laquo;</a></li>
+                                                {% for page_num in range(1, page_num + 1) %}
+                                                <li class="pagination-item {% if page_num == page %}is-current{% endif %}">
+                                                    <a href="?page={{page_num}}" class="pagination-link">{{ page_num
+                                                        }}</a>
+                                                </li>
+                                                {% endfor %}
+                                                <li><a href="?page={{page_num}}" class="next">&raquo;</a></li>
+                                            </ul>
+                                            </div>
+                                            <div class="search-box">
+                                                <i class="fas fa-search search-icon"></i>
+                                                <input type="text" name="search" class="input-search" placeholder="Search...">
+                                                <button type="submit" class="btn-search">Search</button>
+                                            </div>
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <form method="POST">
-                    <div class="pagination modal-3">
-                        <ul class="pagination-list">
-                        <li><a href="?" class="prev">&laquo</a></li>
-                            {% for page_num in range(1, page_num + 1) %}
-                            <li class="pagination-item {% if page_num == page %}is-current{% endif %}">
-                                <a href="?page={{page_num}}" class="pagination-link">{{ page_num }}</a>
-                            </li>
-                            {% endfor %}
-                        <li><a href="?page={{page_num}}" class="next">&raquo;</a></li>
-                        </ul>
-                    </div>
-                {# <div class="search-box">
-                    <button class="btn-search"><i class="fas fa-search"></i></button>
-                    <input type="text" class="input-search" placeholder="Type to Search...">
-                </div>
-                </form> #}
             </div>
             <!-- End of Recent Orders -->
 
@@ -429,5 +290,11 @@
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
+    <script>
+    function clearSearch() {
+            document.getElementById('searchInput').value = '';
+        }
+    </script>
 </body>
+
 </html>
