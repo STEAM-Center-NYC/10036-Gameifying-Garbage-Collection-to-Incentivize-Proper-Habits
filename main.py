@@ -452,31 +452,51 @@ def AdminHistory():
         return abort(404)
     
     page = request.args.get('page', 1)
-
+    
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
     id_count_value = id_count_row["id_count"]
 
     offset = (int(page) - 1) * 10
-
-    cursor.execute(
-        f"""
-        SELECT 
+    if request.method == "POST": 
+        Name_Search= request.form["search"]
+        cursor.execute(
+            f"""
+            SELECT 
             u.username as Username, 
             r.Image as Image, 
             CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
-                 ELSE 'Declined' END as Request,
+                ELSE 'Declined' END as Request,
             u.Points as Points,
             r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
+        WHERE u.username LIKE '%{Name_Search}%'
         ORDER BY r.TimeStamp DESC
-        LIMIT 15 OFFSET {offset}
-        """
-    )
+        LIMIT 15 OFFSET {offset};
+            """
+        )
+    else:
+        cursor.execute(
+            f"""
+            SELECT 
+                u.username as Username, 
+                r.Image as Image, 
+                CASE WHEN r.ImageVerified = 1 THEN 'Approved' 
+                    ELSE 'Declined' END as Request,
+                u.Points as Points,
+                r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
+            FROM Rewards r
+            JOIN Users u ON r.User_ID = u.ID
+            ORDER BY r.TimeStamp DESC
+            LIMIT 15 OFFSET {offset}
+            """
+        )
     Requests = cursor.fetchall()
     cursor.close()
+
+        
 
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
@@ -485,16 +505,20 @@ def AdminHistory():
 
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards")
+    if request.method == "POST": 
+        Name_Search= request.form["search"]
+        cursor.execute(
+            f"""SELECT COUNT(*) FROM Rewards r 
+            JOIN Users u ON r.User_ID = u.ID 
+            WHERE Username LIKE '%{Name_Search}%'
+            """
+        )
+    else:
+        cursor.execute("SELECT COUNT(*) FROM Rewards")
     page = cursor.fetchone()["COUNT(*)"]
     page_num= (page//10) +1
     cursor.close()
-
-    if request.method == "POST":
-        Name_Search= request.form["username"]
-        cursor = get_db().cursor()
-        cursor.execute(f"SELECT * FROM Users WHERE Username LIKE {Name_Search};")
-        Name_Result=cursor.fetchall()
-
+       
     greeting = get_greeting()
 
     return render_template(
@@ -503,7 +527,6 @@ def AdminHistory():
         greeting=greeting,
         page_num=page_num,
         Requests=Requests,
-        TicketCount=TicketCount,
-        # Name_Result=Name_Result
+        TicketCount=TicketCount
     )
 

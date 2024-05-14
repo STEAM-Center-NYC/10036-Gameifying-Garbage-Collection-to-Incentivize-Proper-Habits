@@ -1,38 +1,52 @@
-const sideMenu = document.querySelector('aside');
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
 const darkMode = document.querySelector('.dark-mode');
 
-// Function to set dark mode state in local storage
 const setDarkModeState = (isDarkMode) => {
-    localStorage.setItem('darkMode', isDarkMode);
+    localStorage.setItem('darkMode', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('placeholderColor', isDarkMode ? '#aaa' : '#444');
+    localStorage.setItem('paginationColor', isDarkMode ? '#fff' : '#000');
 };
 
-// Function to toggle dark mode
 const toggleDarkMode = () => {
     document.body.classList.toggle('dark-mode-variables');
     darkMode.querySelector('span:nth-child(1)').classList.toggle('active');
     darkMode.querySelector('span:nth-child(2)').classList.toggle('active');
-    // Update dark mode state in local storage
     setDarkModeState(document.body.classList.contains('dark-mode-variables'));
+
+    const paginationItems = document.querySelectorAll('.pagination-item a');
+    const isDarkModeEnabled = document.body.classList.contains('dark-mode-variables');
+
+    
+    const paginationColor = localStorage.getItem('paginationColor');
+
+    paginationItems.forEach(item => {
+        item.style.color = paginationColor;
+    });
+
+    const searchBox = document.querySelector('.search-box');
+    searchBox.style.backgroundColor = isDarkModeEnabled ? '#202528' : '#fff';
+    searchBox.style.color = isDarkModeEnabled ? '#fff' : '#000';
+
+    
+    const inputSearch = document.querySelector('.input-search');
+    inputSearch.style.color = isDarkModeEnabled ? '#fff' : '#000';
+    const placeholderColor = isDarkModeEnabled ? '#aaa' : '#444';
+    inputSearch.setAttribute('placeholder', 'Search...');
+    inputSearch.style.setProperty('--placeholder-color', placeholderColor);
 };
 
-// Event listener for opening side menu
-menuBtn.addEventListener('click', () => {
-    sideMenu.style.display = 'block';
-});
-
-// Event listener for closing side menu
-closeBtn.addEventListener('click', () => {
-    sideMenu.style.display = 'none';
-});
-
-// Event listener for toggling dark mode
 darkMode.addEventListener('click', toggleDarkMode);
 
-// Retrieve dark mode state from local storage and apply it
-const isDarkModeEnabled = JSON.parse(localStorage.getItem('darkMode'));
-if (isDarkModeEnabled) {
-    toggleDarkMode();
-}
 
+const isDarkModeEnabled = localStorage.getItem('darkMode') === 'dark';
+const placeholderColor = localStorage.getItem('placeholderColor');
+const paginationColor = localStorage.getItem('paginationColor');
+
+if (isDarkModeEnabled) {
+    document.body.classList.add('dark-mode-variables');
+    toggleDarkMode();
+} else {
+    const paginationItems = document.querySelectorAll('.pagination-item a');
+    paginationItems.forEach(item => {
+        item.style.color = paginationColor;
+    });
+}
