@@ -5,45 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="/static/popup.css">
     <link rel="stylesheet" href="/static/Adminstyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/static/response.css">
-    <title>BinBuddy- Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/pagination.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>BinBuddy- Admin History</title>
 </head>
 <style>
     #clock {
         max-width: 12px;
     }
-
-    .primary .img {
-        width: 100vh;
-    }
-
-    /* The alert message box */
-.alert {
-  padding: 20px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
-}
-
-/* The close button */
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-/* When moving the mouse over the close button */
-.closebtn:hover {
-  color: black;
-}
 </style>
 
 <body>
@@ -63,7 +34,7 @@
             </div>
 
             <div class="sidebar">
-                <a href="/Admin/Dashboard" class="active">
+                <a href="/Admin/Dashboard">
                     <span class="material-icons-sharp">
                         insights
                     </span>
@@ -82,7 +53,7 @@
                     <h3>Tickets</h3>
                     <span class="message-count">{{TicketCount}}</span>
                 </a>
-                <a href="/Admin/History">
+                <a href="/Admin/History" class="active">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -127,75 +98,11 @@
 
         <!-- Main Content -->
         <main>
-
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Current Date</h3>
-                            <h1 id="date"></h1>
-                            <h1 id="time"></h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info ">
-                            <h3>Total Users</h3>
-                            <h1>{{id_count_value}}</h1>
-                        </div>
-                        <div class="progresss mt-3">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Pending Request</h3>
-                            <h1>{{TicketCount}}</h1>
-                        </div>
-                        <div class="progresss">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Analyses -->
-
-            <!-- New Users Section -->
-            <div class="new-users">
-                <h2>New Users</h2>
-                <div class="user-list">
-                    <div class="user">
-                        <img src="/static/images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/plus.png">
-                        <h2>More</h2>
-                        <p>New User</p>
-                    </div>
-                </div>
-            </div>
+            <h1>History</h1>
             <!-- End of New Users Section -->
 
             <!-- Recent Orders Table -->
             <div class="recent-orders">
-                <h2>Recent Point Requests</h2>
                 <table>
                     <thead>
                         <tr>
@@ -208,20 +115,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for request in Requests[:5] %}
+                        {% for request in Requests %}
                         <tr>
                             <td>{{ request.Username }}</td>
                             <td>{{ request.Points }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
+                                              {% if request.Request == 'Declined' %}
+                                                text-danger
+                                              {% elif request.Request == 'Pending' %}
+                                                text-warning
+                                              {% else %}
+                                                text-success
+                                              {% endif %}
+                                            ">
                                 {{ request.Request }}
                             </td>
                             {% if request.Request == 'Pending'%}
@@ -232,9 +139,10 @@
                                                 class="fas fa-check"></i></button>
                                     </form>
                                     <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
-                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i class="fas fa-times"></i></button>
+                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i
+                                                class="fas fa-times"></i></button>
                                     </form>
-                                    
+
                                 </div>
                             </td>
                             {% else %}
@@ -247,10 +155,35 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        </div>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6"> <!-- Spanning all columns -->
+                                <div class="pagination-search-container">
+                                    <div class="pagination modal-3">
+                                        <form name="username" method="post">
+                                            <ul class="pagination-list">
+                                                <li><a href="?" class="prev">&laquo;</a></li>
+                                                {% for page_num in range(1, page_num + 1) %}
+                                                <li class="pagination-item {% if page_num == page %}is-current{% endif %}">
+                                                    <a href="?page={{page_num}}" class="pagination-link">{{ page_num
+                                                        }}</a>
+                                                </li>
+                                                {% endfor %}
+                                                <li><a href="?page={{page_num}}" class="next">&raquo;</a></li>
+                                            </ul>
+                                            </div>
+                                            <div class="search-box">
+                                                <i class="fas fa-search search-icon"></i>
+                                                <input type="text" name="search" class="input-search" placeholder="Search...">
+                                                <button type="submit" class="btn-search">Search</button>
+                                            </div>
+                                        </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <a href="/Admin/Request">Show All</a>
             </div>
             <!-- End of Recent Orders -->
 
@@ -353,13 +286,15 @@
             </div>
 
         </div>
-
-
     </div>
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
-    <script src="/static/popup.js " async defer></script>
+    <script>
+    function clearSearch() {
+            document.getElementById('searchInput').value = '';
+        }
+    </script>
 </body>
 
 </html>

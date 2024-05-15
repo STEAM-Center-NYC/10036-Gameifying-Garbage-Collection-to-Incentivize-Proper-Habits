@@ -5,45 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    <link rel="stylesheet" href="/static/popup.css">
     <link rel="stylesheet" href="/static/Adminstyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/static/response.css">
-    <title>BinBuddy- Admin Dashboard</title>
+    <title>BinBuddy- Admin Users</title>
 </head>
 <style>
     #clock {
         max-width: 12px;
     }
-
-    .primary .img {
-        width: 100vh;
-    }
-
-    /* The alert message box */
-.alert {
-  padding: 20px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
-}
-
-/* The close button */
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-/* When moving the mouse over the close button */
-.closebtn:hover {
-  color: black;
-}
 </style>
 
 <body>
@@ -63,13 +31,13 @@
             </div>
 
             <div class="sidebar">
-                <a href="/Admin/Dashboard" class="active">
+                <a href="/Admin/Dashboard">
                     <span class="material-icons-sharp">
                         insights
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="/Admin/Users">
+                <a href="/Admin/Users" class="active">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
@@ -127,44 +95,8 @@
 
         <!-- Main Content -->
         <main>
-
-            <h1>Dashboard</h1>
-            <!-- Analyses -->
-            <div class="analyse">
-                <div class="sales">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Current Date</h3>
-                            <h1 id="date"></h1>
-                            <h1 id="time"></h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="visits">
-                    <div class="status">
-                        <div class="info ">
-                            <h3>Total Users</h3>
-                            <h1>{{id_count_value}}</h1>
-                        </div>
-                        <div class="progresss mt-3">
-
-                        </div>
-                    </div>
-                </div>
-                <div class="searches">
-                    <div class="status">
-                        <div class="info">
-                            <h3>Total Pending Request</h3>
-                            <h1>{{TicketCount}}</h1>
-                        </div>
-                        <div class="progresss">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Analyses -->
-
+        
+            <h1>Users</h1>
             <!-- New Users Section -->
             <div class="new-users">
                 <h2>New Users</h2>
@@ -192,67 +124,6 @@
                 </div>
             </div>
             <!-- End of New Users Section -->
-
-            <!-- Recent Orders Table -->
-            <div class="recent-orders">
-                <h2>Recent Point Requests</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>User Points</th>
-                            <th>Request</th>
-                            <th>Status</th>
-                            <th>Response</th>
-                            <th>More</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for request in Requests[:5] %}
-                        <tr>
-                            <td>{{ request.Username }}</td>
-                            <td>{{ request.Points }}</td>
-                            <td>{{ request.status }}</td>
-                            <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
-                                {{ request.Request }}
-                            </td>
-                            {% if request.Request == 'Pending'%}
-                            <td class="responsecolumn">
-                                <div class="primary" class="responsecolumn">
-                                    <form method="POST" action="/approve-request/{{ request.Reward_ID }}">
-                                        <button class="checkmark-btn" type="submit"><i
-                                                class="fas fa-check"></i></button>
-                                    </form>
-                                    <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
-                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i class="fas fa-times"></i></button>
-                                    </form>
-                                    
-                                </div>
-                            </td>
-                            {% else %}
-                            <td> Already Submitted</td>
-                            {% endif%}
-
-                            <td class="primary">
-                                <a href="#"
-                                    onclick="window.open('{{ url_for('photo', request_id=request['Reward_ID']) }}', 'win', 'width=600,height=600')">Details</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        </div>
-                    </tbody>
-                </table>
-                <a href="/Admin/Request">Show All</a>
-            </div>
-            <!-- End of Recent Orders -->
 
         </main>
         <!-- End of Main Content -->
@@ -359,7 +230,5 @@
     <script src="/static/AdminDashboard.js"></script>
     <script src="/static/date.js"></script>
     <script src="/static/time.js"></script>
-    <script src="/static/popup.js " async defer></script>
 </body>
-
 </html>

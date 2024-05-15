@@ -355,6 +355,7 @@ main .recent-orders table{
     box-shadow: var(--box-shadow);
     border-radius: var(--card-border-radius);
     transition: all 0.3s ease;
+    margin-bottom: 20px;
 }
 
 main .recent-orders table:hover{
@@ -367,14 +368,14 @@ main table tbody td{
     color: var(--color-dark-variant);
 }
 
+
 main table tbody tr:last-child td{
     border: none;
 }
 
-main .recent-orders a{
+main .recent-orders a {
     text-align: center;
     display: block;
-    margin: 1rem auto;
     color: var(--color-primary);
 }
 
@@ -533,6 +534,19 @@ main .recent-orders a{
     display: flex;
     align-items: center;
     gap: 0.6rem;
+}
+
+
+.text-success {
+    color: #41fb3a;
+}
+
+.text-warning {
+    color: #f9fb07;
+}
+
+.text-danger{
+    color: #f42929;
 }
 
 @media screen and (max-width: 1200px) {
