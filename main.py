@@ -215,4 +215,8 @@ def Admin():
 
 @app.route("/Index2")
 def NewIndex():
-    return render_template("index2.html.jinja")
+    return render_template("index2.html.jinja")  
+
+@app.route('/about') 
+def aboutus(): 
+    return render_template("about.html.jinja")

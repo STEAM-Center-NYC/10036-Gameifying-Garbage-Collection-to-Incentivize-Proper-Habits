@@ -1,222 +1,136 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-	<title>Contact Form 06</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Contact Us - BinBuddy</title>
+    <meta name="description"
+          content="Contact us for any inquiries or feedback."/>
 
-	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+    <!--Inter UI font-->
+    <link href="https://rsms.me/inter/inter-ui.css" rel="stylesheet">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--vendors styles-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
 
-	<link rel="stylesheet" href="/static/contact/css/style.css">
+    <!-- Bootstrap CSS / Color Scheme -->
+    <link rel="stylesheet" href="/static/knight/css/default.css" id="theme-color">
 </head>
-<style>
-header {
-  background-color: #001f3f; /* Dark blue header background */
-  color: #ffffff; /* White text color */
-  padding: 20px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-}
-
-.logo-container img {
-  width: 175px; /* Adjust logo width */
-  height: 45px; /* Adjust logo height */
-}
-
-.logo-container h1 {
-  font-size: 24px; /* Adjust logo text size */
-  margin-left: 10px; /* Add some spacing between logo and text */
-}
-
-nav {
-  display: flex;
-  align-items: center;
-}
-
-.navbar {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  padding-right: 20px;
-}
-
-.navbar li {
-  margin-right: 20px; /* Adjust spacing between navbar items */
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #ffffff; /* White text color */
-  font-weight: bold;
-  font-size: 16px; /* Adjust font size */
-  transition: color 0.3s ease-in-out;
-}
-
-.navbar a:hover {
-  color: #62c370; /* Light green color on hover */
-}
-
-.user-section a {
-  margin-left: 20px; /* Adjust spacing between user section items */
-  color: #ffffff; /* White text color */
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px; /* Adjust font size */
-  transition: color 0.3s ease-in-out;
-}
-
-.user-section a.nav-btn {
-  background-color: #62c370; /* Light green button background color */
-  color: #001f3f; /* Dark blue button text color */
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.user-section a.nav-btn:hover {
-  background-color: #2d2c62; /* Dark blue button background color on hover */
-  color: #ffffff; /* White button text color on hover */
-}
-</style>
-
 <body>
-<header>
-    <div class="logo-container">
-      <a href="/home"><img src="static/images/binbuddytransparent.png" alt="BinBuddy Logo"></a>
+
+<!--navigation-->
+<section class="smart-scroll">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a class="navbar-brand heading-black" href="index.html">
+                BinBuddy
+            </a>
+            <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span data-feather="grid"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="/about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" href="/signin">
+                            <em data-feather="layout" width="18" height="18" class="mr-2"></em>
+                            Log In
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </div>
-    <nav>
-      <ul class="navbar">
-        <li><a href="/home">Home</a></li>
-        <li><a href="/rewards">Rewards</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-        {# {% if admin_access %}
-            <li><a href="/admin">Admin Panel</a></li>
-        {% endif %} #}
-      </ul>
-      <div class="user-section">
-      </div>
-    </nav>
-  </header>
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-12">
-					<div class="wrapper">
-						<div class="row no-gutters mb-5">
-							<div class="col-md-7">
-								<div class="contact-wrap w-100 p-md-5 p-4">
-									<h3 class="mb-4">Contact Us</h3>
-									<div id="form-message-warning" class="mb-4"></div>
-									<div id="form-message-success" class="mb-4">
-										Your message was sent, thank you!
-									</div>
-									<form method="POST" id="contactForm" name="contactForm" class="contactForm">
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label class="label" for="name">Full Name</label>
-													<input type="text" class="form-control" name="name" id="name"
-														placeholder="Name">
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<label class="label" for="email">Email Address</label>
-													<input type="email" class="form-control" name="email" id="email"
-														placeholder="Email">
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<label class="label" for="subject">Subject</label>
-													<input type="text" class="form-control" name="subject" id="subject"
-														placeholder="Subject">
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<label class="label" for="#">Message</label>
-													<textarea name="message" class="form-control" id="message" cols="30"
-														rows="4" placeholder="Message"></textarea>
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<input type="submit" value="Send Message" class="btn btn-primary">
-													<div class="submitting"></div>
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="col-md-5 d-flex align-items-stretch">
-								<div id="map">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="dbox w-100 text-center">
-									<div class="icon d-flex align-items-center justify-content-center">
-										<span class="fa fa-map-marker"></span>
-									</div>
-									<div class="text">
-										<p><span>Address:</span>141 Flushing Ave Building 77 | Suite 301, Brooklyn, NY
-											11205</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="dbox w-100 text-center">
-									<div class="icon d-flex align-items-center justify-content-center">
-										<span class="fa fa-phone"></span>
-									</div>
-									<div class="text">
-										<p><span>Phone:</span> <a href="tel://1234567920">+(718) 909-5610</a></p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="dbox w-100 text-center">
-									<div class="icon d-flex align-items-center justify-content-center">
-										<span class="fa fa-paper-plane"></span>
-									</div>
-									<div class="text">
-										<p><span>Email:</span> <a href="mailto:info@yoursite.com">alayne@gmail.com</a>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+</section>
 
-	<script src="/static/contact/js/jquery.min.js"></script>
-	<script src="/static/contact/js/popper.js"></script>
-	<script src="/static/contact/js/bootstrap.min.js"></script>
-	<script src="/static/contact/js/jquery.validate.min.js"></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-	<script src="/static/contact/js/google-map.js"></script>
-	<script src="/static/contact/js/main.js"></script>
-	<script src="/static/rewards.js"></script>
+<!--contact section-->
+<section class="py-7" id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto text-center">
+                <h2>Contact Us</h2>
+                <p class="text-muted lead">Have questions or feedback? Get in touch with us!</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-8 mx-auto">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="Your Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="5" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
+<!--footer-->
+<footer class="py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-5 mr-auto">
+                <h5>About BinBuddy</h5>
+                <p class="text-muted">BinBuddy is dedicated to promoting environmental sustainability through recycling initiatives.</p>
+            </div>
+            <div class="col-sm-2">
+                <h5>Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Refund policy</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Partner</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Refer a friend</a></li>
+                    <li><a href="#">Affiliates</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-2">
+                <h5>Help</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Log in</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12 text-muted text-center small-xl">
+                &copy; 2024 BinBuddy - All Rights Reserved
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--scroll to top-->
+<div class="scroll-top">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script src="/static/knight/js/scripts.js"></script>
 </body>
-
 </html>
