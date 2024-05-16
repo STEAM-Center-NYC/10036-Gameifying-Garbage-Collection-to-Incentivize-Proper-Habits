@@ -530,4 +530,3 @@ def AdminHistory():
         Requests=Requests,
         TicketCount=TicketCount
     )
-
