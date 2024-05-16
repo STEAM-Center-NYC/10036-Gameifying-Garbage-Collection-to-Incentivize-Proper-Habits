@@ -458,7 +458,7 @@ def AdminHistory():
     id_count_row = cursor.fetchone()
     id_count_value = id_count_row["id_count"]
 
-    offset = (int(page) - 1) * 10
+    offset = (int(page) - 1) * 15
     if request.method == "POST": 
         Name_Search= request.form["search"]
         cursor.execute(
@@ -516,7 +516,7 @@ def AdminHistory():
     else:
         cursor.execute("SELECT COUNT(*) FROM Rewards")
     page = cursor.fetchone()["COUNT(*)"]
-    page_num= (page//10) +1
+    page_num= (page//15) +1
     cursor.close()
        
     greeting = get_greeting()
