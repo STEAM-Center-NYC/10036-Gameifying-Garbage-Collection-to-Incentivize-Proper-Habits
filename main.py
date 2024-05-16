@@ -472,7 +472,7 @@ def AdminHistory():
             r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
         FROM Rewards r
         JOIN Users u ON r.User_ID = u.ID
-        WHERE u.username LIKE '%{Name_Search}%'
+        WHERE (r.ImageVerified = 1 OR r.ImageVerified = 2) AND u.username LIKE '%{Name_Search}%'
         ORDER BY r.TimeStamp DESC
         LIMIT 15 OFFSET {offset};
             """
@@ -489,6 +489,7 @@ def AdminHistory():
                 r.Reward_ID as Reward_ID  -- Fetch the Reward_ID column
             FROM Rewards r
             JOIN Users u ON r.User_ID = u.ID
+            WHERE (r.ImageVerified = 1 OR r.ImageVerified = 2)
             ORDER BY r.TimeStamp DESC
             LIMIT 15 OFFSET {offset}
             """
