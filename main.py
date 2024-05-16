@@ -22,7 +22,6 @@ login_manager.init_app(app)
 app.config["UPLOAD_FOLDER"] = "static/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"txt", "pdf", "png", "jpg", "jpeg", "gif"}
 
-
 class User:
     is_authenticated = True
     is_anonymous = False
@@ -185,7 +184,6 @@ def home():
 
         return render_template(
         "homepage.html.jinja",
-        # username=flask_login.current_user.username,
         admin_access=admin_access,
         points=points,
         bins_data=bins_data,
@@ -222,8 +220,6 @@ def signup():
 
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
-    if flask_login.current_user.is_authenticated:
-        return redirect("/home")
     if request.method == "POST":
         identifier = request.form["identifier"]
         password = request.form["password"]
@@ -252,6 +248,11 @@ def logout():
 @app.route("/profile", methods=["GET", "POST"])
 @flask_login.login_required
 def profile():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    
     if request.method == "POST":
         about_me = request.form.get("about_me")
         if about_me:
@@ -274,6 +275,10 @@ def profile():
 
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
     return render_template("contact.html.jinja")
 
 
@@ -300,6 +305,11 @@ def get_greeting():
 
 @app.route("/Admin/Dashboard", methods=["GET", "POST"])
 def AdminDashboard():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -348,6 +358,11 @@ def AdminDashboard():
 
 @app.route("/Admin/Request")
 def AdminRequest():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -392,6 +407,11 @@ def AdminRequest():
 
 @app.route("/Admin/Users")
 def AdminUser():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -446,6 +466,11 @@ def decline_request(request_id):
 
 @app.route("/Admin/History", methods=["POST", "GET"])
 def AdminHistory():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -530,3 +555,11 @@ def AdminHistory():
         Requests=Requests,
         TicketCount=TicketCount
     )
+
+@app.route("/About")
+def AboutPage():
+    if flask_login.current_user.is_authenticated:
+        pass
+    else:
+        return redirect("/signin")
+    return render_template("about.html.jinja")
