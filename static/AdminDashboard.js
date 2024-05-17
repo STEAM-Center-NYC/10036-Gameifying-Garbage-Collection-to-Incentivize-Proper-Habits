@@ -2,6 +2,7 @@ const sideMenu = document.querySelector('aside');
 const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
 const darkMode = document.querySelector('.dark-mode');
+const paginationLinks = document.querySelectorAll('.pagination-link');
 
 // Function to set dark mode state in local storage
 const setDarkModeState = (isDarkMode) => {
@@ -10,11 +11,15 @@ const setDarkModeState = (isDarkMode) => {
 
 // Function to toggle dark mode
 const toggleDarkMode = () => {
-    document.body.classList.toggle('dark-mode-variables');
+    const isDarkMode = document.body.classList.toggle('dark-mode-variables');
     darkMode.querySelector('span:nth-child(1)').classList.toggle('active');
     darkMode.querySelector('span:nth-child(2)').classList.toggle('active');
     // Update dark mode state in local storage
-    setDarkModeState(document.body.classList.contains('dark-mode-variables'));
+    setDarkModeState(isDarkMode);
+    // Adjust pagination link color
+    paginationLinks.forEach(link => {
+        link.style.color = isDarkMode ? '#fff' : '#000';
+    });
 };
 
 // Event listener for opening side menu
@@ -35,4 +40,3 @@ const isDarkModeEnabled = JSON.parse(localStorage.getItem('darkMode'));
 if (isDarkModeEnabled) {
     toggleDarkMode();
 }
-
