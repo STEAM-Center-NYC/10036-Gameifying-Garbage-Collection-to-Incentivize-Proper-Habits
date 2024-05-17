@@ -542,11 +542,11 @@ main .recent-orders a {
 }
 
 .text-warning {
-    color: #f9fb07;
+    color: #E2AD48;
 }
 
 .text-danger{
-    color: #f42929;
+    color: #DF1740;
 }
 
 @media screen and (max-width: 1200px) {
