@@ -3,6 +3,7 @@ const menuBtn = document.getElementById('menu-btn');
 const closeBtn = document.getElementById('close-btn');
 const darkMode = document.querySelector('.dark-mode');
 const paginationLinks = document.querySelectorAll('.pagination-link');
+const inputSearch = document.querySelector('.input-search'); // Select the input search element
 
 // Function to set dark mode state in local storage
 const setDarkModeState = (isDarkMode) => {
@@ -20,6 +21,8 @@ const toggleDarkMode = () => {
     paginationLinks.forEach(link => {
         link.style.color = isDarkMode ? '#fff' : '#000';
     });
+    // Adjust input search color
+    inputSearch.style.color = isDarkMode ? '#fff' : '#000'; // Set color based on dark mode
 };
 
 // Event listener for opening side menu
