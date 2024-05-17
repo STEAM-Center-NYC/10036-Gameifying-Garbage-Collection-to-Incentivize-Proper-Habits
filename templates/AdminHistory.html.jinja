@@ -161,13 +161,12 @@
                             <td colspan="6"> <!-- Spanning all columns -->
                                 <div class="pagination-search-container">
                                     <div class="pagination modal-3">
-                                        <form name="username" method="post">
+                                        <form name="username" method="post" action="/Admin/History">
                                             <ul class="pagination-list">
                                                 <li><a href="?" class="prev">&laquo;</a></li>
                                                 {% for page_num in range(1, page_num + 1) %}
                                                 <li class="pagination-item {% if page_num == page %}is-current{% endif %}">
-                                                    <a href="?page={{page_num}}" class="pagination-link">{{ page_num
-                                                        }}</a>
+                                                    <a href="?page={{page_num}}" class="pagination-link" style="color: black;">{{ page_num }}</a>
                                                 </li>
                                                 {% endfor %}
                                                 <li><a href="?page={{page_num}}" class="next">&raquo;</a></li>
