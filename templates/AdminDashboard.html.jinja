@@ -166,30 +166,21 @@
             <!-- End of Analyses -->
 
             <!-- New Users Section -->
-            <div class="new-users">
-                <h2>New Users</h2>
-                <div class="user-list">
-                    <div class="user">
-                        <img src="/static/images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
+            <div class="UsersSection">
+                <div class="new-users">
+                    <h2>New Users</h2>
+                    {% for Users in MultipleUsers [:4]%}
+                    <div class="user-list" style="width: 20%; ">
+                        <div class="user" style="align-items: center;">
+                            <img src="/static/images/emptyuser.png">
+                            <h2>{{ Users['username'] }}</h2>
+                            <p>Date Joined:</p>
+                            <p>{{Users['FormattedDate']}}</p>
+                        </div>
                     </div>
-                    <div class="user">
-                        <img src="/static/images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/plus.png">
-                        <h2>More</h2>
-                        <p>New User</p>
-                    </div>
+                    {%endfor%}
                 </div>
+                <a href="/Admin/Users">Show More</a>
             </div>
             <!-- End of New Users Section -->
 
