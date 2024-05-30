@@ -342,6 +342,10 @@ def AdminDashboard():
     TicketCount = cursor.fetchone()["COUNT(*)"]
     cursor.close()
 
+    cursor = get_db().cursor()
+    cursor.execute("SELECT username, DATE_FORMAT(JoinedDate, '%m/%d/%Y') AS FormattedDate FROM Users ORDER BY `Users`.`JoinedDate` DESC")
+    MultipleUsers = cursor.fetchall()
+    cursor.close()
     greeting = get_greeting()
     referrer = session.pop("referrer", None)
     if referrer:
@@ -353,6 +357,7 @@ def AdminDashboard():
             greeting=greeting,
             Requests=Requests,
             TicketCount=TicketCount,
+            MultipleUsers=MultipleUsers
         )
 
 
@@ -421,9 +426,13 @@ def AdminUser():
     TicketCount = cursor.fetchone()["COUNT(*)"]
     cursor.close()
 
+    cursor = get_db().cursor()
+    cursor.execute("SELECT username, DATE_FORMAT(JoinedDate, '%m/%d/%Y') AS FormattedDate FROM Users ORDER BY `Users`.`JoinedDate` DESC")
+    MultipleUsers = cursor.fetchall()
+    cursor.close()
     greeting = get_greeting()
     return render_template(
-        "AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting
+        "AdminUsers.html.jinja", TicketCount=TicketCount, greeting=greeting, MultipleUsers=MultipleUsers
     )
 
 

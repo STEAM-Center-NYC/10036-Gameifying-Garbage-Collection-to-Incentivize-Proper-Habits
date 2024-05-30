@@ -305,6 +305,9 @@ main .analyse .progresss .percentage{
 
 main .new-users{
     margin-top: 1.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: auto;
 }
 
 main .new-users .user-list{
@@ -314,11 +317,19 @@ main .new-users .user-list{
     margin-top: 1rem;
     box-shadow: var(--box-shadow);
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 1.4rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: 1rem;
+    align-content: center;
+}
+main .UsersSection a{
+    text-align: center;
+    display: block;
+    margin: 1rem auto;
+    color: var(--color-primary);
 }
 
 main .new-users .user-list:hover{
@@ -328,8 +339,7 @@ main .new-users .user-list:hover{
 main .new-users .user-list .user{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 main .new-users .user-list .user img{
@@ -355,7 +365,6 @@ main .recent-orders table{
     box-shadow: var(--box-shadow);
     border-radius: var(--card-border-radius);
     transition: all 0.3s ease;
-    margin-bottom: 20px;
 }
 
 main .recent-orders table:hover{
@@ -368,14 +377,14 @@ main table tbody td{
     color: var(--color-dark-variant);
 }
 
-
 main table tbody tr:last-child td{
     border: none;
 }
 
-main .recent-orders a {
+main .recent-orders a{
     text-align: center;
     display: block;
+    margin: 1rem auto;
     color: var(--color-primary);
 }
 
@@ -542,11 +551,11 @@ main .recent-orders a {
 }
 
 .text-warning {
-    color: #E2AD48;
+    color: #f9fb07;
 }
 
 .text-danger{
-    color: #DF1740;
+    color: #f42929;
 }
 
 @media screen and (max-width: 1200px) {
@@ -580,6 +589,10 @@ main .recent-orders a {
     main .new-users .user-list .user{
         flex-basis: 40%;
         cursor: pointer;
+        width: 50%;
+        padding: 50%;
+        margin-right: auto;
+        text-align: center;
     }
 
     main .recent-orders {

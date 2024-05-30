@@ -99,28 +99,15 @@
             <h1>Users</h1>
             <!-- New Users Section -->
             <div class="new-users">
-                <div class="user-list">
-                    <div class="user">
-                        <img src="/static/images/profile-2.jpg">
-                        <h2>Jack</h2>
-                        <p>54 Min Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-3.jpg">
-                        <h2>Amir</h2>
-                        <p>3 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/profile-4.jpg">
-                        <h2>Ember</h2>
-                        <p>6 Hours Ago</p>
-                    </div>
-                    <div class="user">
-                        <img src="/static/images/plus.png">
-                        <h2>More</h2>
-                        <p>New User</p>
+            {% for Users in MultipleUsers %}
+                <div class="user-list" style="width: 23%; height:30%">
+                    <div class="user" style="align-items: center;">
+                        <img src="/static/images/emptyuser.png"">
+                            <h2>{{ Users['username'] }}</h2>
+                            <p>Date Joined: {{Users['FormattedDate'] }}</p>
                     </div>
                 </div>
+                {%endfor%}
             </div>
             <!-- End of New Users Section -->
 
