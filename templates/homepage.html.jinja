@@ -375,24 +375,55 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary text-center rounded p-4">
-                            <div class="mb-2">
-                                <h6 class="mb-2">Rewards & History</h6>
+                        <div class="col-sm-12 col-xl-12">
+                            <div class="bg-secondary text-center rounded p-4">
+                                <div class="mb-2">
+                                    <h6 class="mb-2">Rewards & History</h6>
+                                </div>
+                                <div class="mb-2">
+                                    <table class="reward-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Request Number</th>
+                                                <th id="requestStatusColor">Request Status</th>
+                                                <th>Points</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for request in reward_requests %}
+                                            <tr>
+                                                <td>{{ request.Reward_ID }}</td>
+                                                <td>{{ request.Request }}</td>
+                                                <td>{{ request.Points }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="mb-2">
+                                        <p style="display: inline;">Total Points: {{points}}</p>
+                                    </div>
+                                </div>
+                                <style>
+                                    .reward-table {
+                                        border-collapse: collapse;
+                                        /* Ensures spacing works with borders */
+                                    }
+
+                                    .reward-table th,
+                                    .reward-table td {
+                                        padding: 10px;
+                                        /* Add spacing around content within cells */
+                                    }
+                                    #requestStatusColor{
+                                        color: var(--color-success);
+                                    }
+                                    .reward-table tr {
+                                        margin-bottom: 10px;
+                                        /* Add spacing between rows */
+                                    }
+                                </style>
                             </div>
-                            <div class="mb-2">
-                                <br>
-                                {# {% %} #}
-                            </div>
-                            <div style="display: inline-block; text-align: left; margin-right: 50px;">
-                                <p style="display: inline;">Disposal Points: {{points}}</p>
-                            </div>
-                            <div style="display: inline-block; text-align: right; margin-left: 50px;">
-                                <p style="display: inline;">Date Submitted: {{date}}</p>
-                            </div>
-                            <br>
-                            <p></p>
-                            {# {% %} #}
-                            <a href="">Show All</a>
                         </div>
                     </div>
 
@@ -401,7 +432,7 @@
 
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
+            {# <div class="container-fluid pt-4 px-4">
                 <div class="bg-secondary rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
@@ -414,7 +445,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> #}
             <!-- Footer End -->
         </div>
         <!-- Content End -->
@@ -485,7 +516,7 @@
             document.getElementById("spinner").classList.remove("show");
         });
 
-        
+
     </script>
 </body>
 

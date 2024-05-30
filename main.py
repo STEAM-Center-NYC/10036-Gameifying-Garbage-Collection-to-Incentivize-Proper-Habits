@@ -22,6 +22,7 @@ login_manager.init_app(app)
 app.config["UPLOAD_FOLDER"] = "static/uploads"
 app.config["ALLOWED_EXTENSIONS"] = {"txt", "pdf", "png", "jpg", "jpeg", "gif"}
 
+
 class User:
     is_authenticated = True
     is_anonymous = False
@@ -182,15 +183,33 @@ def home():
             else:
                 filesent = "Please select an image file to upload."
 
+        with get_db().cursor() as cursor:
+  # Rewards & History (Bottom Right)
+            cursor.execute(
+                """
+                SELECT r.Reward_ID, r.Image, 
+                        CASE WHEN r.ImageVerified = 1 THEN 'Approved' WHEN r.ImageVerified = 2 THEN 'Declined' ELSE 'Pending' END as Request,
+                        r.Points
+                FROM Rewards r
+                
+                WHERE r.User_ID = %s
+                ORDER BY r.TimeStamp DESC
+                """,
+                (flask_login.current_user.id,),
+            )
+            reward_requests = cursor.fetchall()
+
+
         return render_template(
-        "homepage.html.jinja",
-        admin_access=admin_access,
-        points=points,
-        bins_data=bins_data,
-        locations=result,
-        form=form,
-        filesent=filesent,
-    )
+            "homepage.html.jinja",
+            admin_access=admin_access,
+            points=points,
+            bins_data=bins_data,
+            locations=result,
+            form=form,
+            filesent=filesent,
+            reward_requests=reward_requests,
+        )
     else:
         return render_template("signin.html.jinja")
 
@@ -252,7 +271,7 @@ def profile():
         pass
     else:
         return redirect("/signin")
-    
+
     if request.method == "POST":
         about_me = request.form.get("about_me")
         if about_me:
@@ -309,7 +328,7 @@ def AdminDashboard():
         pass
     else:
         return redirect("/signin")
-    
+
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -362,7 +381,7 @@ def AdminRequest():
         pass
     else:
         return redirect("/signin")
-    
+
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -393,7 +412,7 @@ def AdminRequest():
     cursor.close()
 
     greeting = get_greeting()
-    referrer = session.pop('referrer', None)
+    referrer = session.pop("referrer", None)
     if referrer:
         return redirect(referrer)
     else:
@@ -402,7 +421,7 @@ def AdminRequest():
             Requests=Requests,
             TicketCount=TicketCount,
             greeting=greeting,
-    )
+        )
 
 
 @app.route("/Admin/Users")
@@ -411,7 +430,7 @@ def AdminUser():
         pass
     else:
         return redirect("/signin")
-    
+
     if flask_login.current_user.is_admin:
         pass
     else:
@@ -444,9 +463,40 @@ def photo(request_id):
 
 @app.route("/approve-request/<int:request_id>", methods=["POST", "GET"])
 def approve_request(request_id):
+    with get_db().cursor() as cursor:
+        # Fetch the User_ID from Rewards using the Reward_ID
+        cursor.execute(
+            "SELECT User_ID FROM Rewards WHERE Reward_ID = %s", (request_id,)
+        )
+        result = cursor.fetchone()
+
+        if result:
+            user_id = result["User_ID"]
+
+            # Update the ImageVerified status
+            cursor.execute(
+                "UPDATE Rewards SET ImageVerified = 1, Points = 5 WHERE Reward_ID = %s", 
+                (request_id,),
+            )   
+
+            # Update the user's points (adding 5) using the retrieved User_ID
+            cursor.execute(
+                "UPDATE Users SET Points = Points + 5 WHERE ID = %s", (user_id,)
+            )
+
+            get_db().commit()
+        else:
+            return ("Invalid request ID.", "error")
+
+    session["referrer"] = request.referrer or url_for("home")
+    return redirect(session.pop("referrer", url_for("home")))
+
+
+@app.route("/decline-request/<int:request_id>", methods=["POST", "GET"])
+def decline_request(request_id):
     cursor = get_db().cursor()
     cursor.execute(
-        "UPDATE Rewards SET ImageVerified = 1 WHERE Reward_ID = %s", request_id
+        "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id
     )
     get_db().commit()
     cursor.close()
@@ -454,38 +504,28 @@ def approve_request(request_id):
     return redirect(session.pop("referrer"))  # Fallback included
 
 
-@app.route("/decline-request/<int:request_id>", methods=["POST", "GET"])
-def decline_request(request_id):
-    cursor = get_db().cursor()
-    cursor.execute(
-        "UPDATE Rewards SET ImageVerified = 2 WHERE Reward_ID = %s", request_id) 
-    get_db().commit()
-    cursor.close()
-    session["referrer"] = request.referrer  # Store the referrer
-    return redirect(session.pop("referrer"))  # Fallback included
-
 @app.route("/Admin/History", methods=["POST", "GET"])
 def AdminHistory():
     if flask_login.current_user.is_authenticated:
         pass
     else:
         return redirect("/signin")
-    
+
     if flask_login.current_user.is_admin:
         pass
     else:
         return abort(404)
-    
-    page = request.args.get('page', 1)
-    
+
+    page = request.args.get("page", 1)
+
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(ID) AS id_count FROM Users")
     id_count_row = cursor.fetchone()
     id_count_value = id_count_row["id_count"]
 
     offset = (int(page) - 1) * 15
-    if request.method == "POST": 
-        Name_Search= request.form["search"]
+    if request.method == "POST":
+        Name_Search = request.form["search"]
         cursor.execute(
             f"""
             SELECT 
@@ -522,8 +562,6 @@ def AdminHistory():
     Requests = cursor.fetchall()
     cursor.close()
 
-        
-
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards WHERE ImageVerified = 0")
     TicketCount = cursor.fetchone()["COUNT(*)"]
@@ -531,8 +569,8 @@ def AdminHistory():
 
     cursor = get_db().cursor()
     cursor.execute("SELECT COUNT(*) FROM Rewards")
-    if request.method == "POST": 
-        Name_Search= request.form["search"]
+    if request.method == "POST":
+        Name_Search = request.form["search"]
         cursor.execute(
             f"""SELECT COUNT(*) FROM Rewards r 
             JOIN Users u ON r.User_ID = u.ID 
@@ -542,9 +580,9 @@ def AdminHistory():
     else:
         cursor.execute("SELECT COUNT(*) FROM Rewards")
     page = cursor.fetchone()["COUNT(*)"]
-    page_num= (page//15) +1
+    page_num = (page // 15) + 1
     cursor.close()
-       
+
     greeting = get_greeting()
 
     return render_template(
@@ -553,8 +591,9 @@ def AdminHistory():
         greeting=greeting,
         page_num=page_num,
         Requests=Requests,
-        TicketCount=TicketCount
+        TicketCount=TicketCount,
     )
+
 
 @app.route("/About")
 def AboutPage():
