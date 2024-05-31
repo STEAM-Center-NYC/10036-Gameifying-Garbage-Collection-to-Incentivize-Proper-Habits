@@ -99,10 +99,6 @@ def landing():
             admin_access = True
     return render_template("index.html.jinja", admin_access=admin_access) 
 
-@app.route("/about") 
-def aboutus(): 
-    return render_template("about.html.jinja")
-
 
 @app.route("/map")
 def map_page():
