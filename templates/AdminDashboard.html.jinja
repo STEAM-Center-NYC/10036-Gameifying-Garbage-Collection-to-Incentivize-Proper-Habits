@@ -21,29 +21,30 @@
     }
 
     /* The alert message box */
-.alert {
-  padding: 20px;
-  background-color: #f44336; /* Red */
-  color: white;
-  margin-bottom: 15px;
-}
+    .alert {
+        padding: 20px;
+        background-color: #f44336;
+        /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
 
-/* The close button */
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    /* The close button */
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-/* When moving the mouse over the close button */
-.closebtn:hover {
-  color: black;
-}
+    /* When moving the mouse over the close button */
+    .closebtn:hover {
+        color: black;
+    }
 </style>
 
 <body>
@@ -205,17 +206,17 @@
                             <td>{{ request.Points }}</td>
                             <td>{{ request.status }}</td>
                             <td class="
-                          {% if request.Request == 'Declined' %}
-                            text-danger
-                          {% elif request.Request == 'Pending' %}
-                            text-warning
-                          {% else %}
-                            text-success
-                          {% endif %}
-                        ">
+                {% if request.Request == 'Declined' %}
+                    text-danger
+                {% elif request.Request == 'Pending' %}
+                    text-warning
+                {% elif request.Request == 'Approved' %}  
+                    text-success
+                {% endif %}
+                ">
                                 {{ request.Request }}
                             </td>
-                            {% if request.Request == 'Pending'%}
+                            {% if request.Request == 'Pending' %}
                             <td class="responsecolumn">
                                 <div class="primary" class="responsecolumn">
                                     <form method="POST" action="/approve-request/{{ request.Reward_ID }}">
@@ -223,14 +224,18 @@
                                                 class="fas fa-check"></i></button>
                                     </form>
                                     <form method="POST" action="/decline-request/{{ request.Reward_ID }}">
-                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i class="fas fa-times"></i></button>
+                                        <button class="x-btn" type="submit" style="margin-left: 3px"><i
+                                                class="fas fa-times"></i></button>
                                     </form>
-                                    
                                 </div>
                             </td>
+                            {% elif request.Request == 'Approved' %}
+                            <td>5 points added</td> {# Display "5 points added" here #}
+                            {% elif request.Request == 'Declined' %}
+                            <td>5 points declined</td> 
                             {% else %}
                             <td> Already Submitted</td>
-                            {% endif%}
+                            {% endif %}
 
                             <td class="primary">
                                 <a href="#"
@@ -238,11 +243,12 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        </div>
+                        
                     </tbody>
                 </table>
                 <a href="/Admin/Request">Show All</a>
             </div>
+
             <!-- End of Recent Orders -->
 
         </main>
