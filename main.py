@@ -4,7 +4,7 @@ from dynaconf import Dynaconf
 from wtforms import FileField, SubmitField
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename 
 import random
 import os
 
@@ -97,7 +97,11 @@ def landing():
         cursor.close()
         if admin_user:
             admin_access = True
-    return render_template("index.html.jinja", admin_access=admin_access)
+    return render_template("index.html.jinja", admin_access=admin_access) 
+
+@app.route("/about") 
+def aboutus(): 
+    return render_template("about.html.jinja")
 
 
 @app.route("/map")
