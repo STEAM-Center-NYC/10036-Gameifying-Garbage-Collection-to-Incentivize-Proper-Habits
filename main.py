@@ -604,7 +604,7 @@ def AdminHistory():
     )
 
 
-@app.route("/About")
+@app.route("/about")
 def AboutPage():
     if flask_login.current_user.is_authenticated:
         pass
